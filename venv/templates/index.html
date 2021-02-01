@@ -1,0 +1,17 @@
+<Title>Tsohafoorumi</Title>
+<h1>Etusivu</h1>
+<h2>Tervetuloa</h2>
+
+Viestien määrä: {{ count }}
+<hr>
+{% for message in messages %}
+{% for title in titles %}
+<b>
+{{ title[0] }}
+</b>
+<p>
+{{ message[0] }}
+<hr>
+{% endfor %}
+{% endfor %}
+<a href="/new">Lähetä viesti</a>
