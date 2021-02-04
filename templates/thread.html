@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block title %}Etusivu{% endblock %}
+{% block content %}
+<h2>{{ title }}</h2>
+{% for reply in messages %}
+<br><p>
+{{ reply[0] }}
+</p>
+<p>
+{{ reply[1] }} {{ reply[3]}}    
+</p>
+<p>
+Tykkäykset: {{ reply[2] }}    
+</p>
+{% endfor %}
+<br>
+<p>
+Vastaa lankaan
+</p>
+<form action="/reply" method="POST">
+Viesti:
+    <input type="text" name="message">
+    <input type="hidden" name="id" value="{{ id }}">
+    <input type="submit" value="Lähetä">
+    </form>
+
+{% endblock %}

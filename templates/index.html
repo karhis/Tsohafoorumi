@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block title %}Etusivu{% endblock %}
+{% block content %}
+<h2>Etusivu</h2>
+{% if session.username %}
+Tervetuloa sovellukseen! {{ session.username }}  <a href="/new">Tee lanka</a>
+<br>
+<a href="/logout">Kirjaudu ulos</a>
+{% else %}
+Tervetuloa sovellukseen!
+<br>
+<form action="/login" method="POST">
+<p>Käyttäjätunnus:<br>
+<input type="text" name="username"</p>
+<p>Salasana:<br>
+<input type="password" name="password"</p>
+<input type="submit" value="Kirjaudu sisään">
+</form>
+{% endif %}
+<p>
+Lankojen määrä: {{ amount }}
+<hr>
+<b>
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Otsikko </a></th>
+            <th scope="col">By</th>
+            <th scope="col">Tykkäykset</th>
+            <th scope="col">Luotu</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for title in titles %}
+          <tr class="table-primary">
+            <th scope="row"><a href="/thread/{{ title[0] }}"> {{ title[1] }} </a></th>
+            <td>{{ title[2] }}</td>
+            <td>{{ title[3] }}</td>
+            <td>{{ title[4].strftime("%Y-%m-%d %H:%M:%S") }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+</b>
+<hr>
+
+
+{% endblock %}
+
