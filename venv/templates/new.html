@@ -1,9 +1,11 @@
-<form action="/send" method="POST">
-Otsikko: <br>
-<textarea name="title" rows="1" cols="50"></textarea>
-<p>
-Viesti: <br>
-<textarea name="content" rows="3" cols="50"></textarea>
-<p>
-<input type="submit" value="Lähetä">
+{% extends "layout.html" %}
+{% block title %}Etusivu{% endblock %}
+{% block content %}
+<form action="/create" method="POST">
+<p>Otsikko:<br>
+<input type="text" name="title"></p>
+<p>Viesti:<br>
+<input type="text" name="message"></p>
+<input type="submit" value="Luo lanka">
 </form>
+{% endblock %}

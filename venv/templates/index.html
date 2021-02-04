@@ -1,17 +1,34 @@
-<Title>Tsohafoorumi</Title>
-<h1>Etusivu</h1>
-<h2>Tervetuloa</h2>
-
-Viestien määrä: {{ count }}
+{% extends "layout.html" %}
+{% block title %}Etusivu{% endblock %}
+{% block content %}
+<h2>Etusivu</h2>
+{% if session.username %}
+Tervetuloa sovellukseen! {{ session.username }}  <a href="/new">Tee lanka</a>
+<br>
+<a href="/logout">Kirjaudu ulos</a>
+{% else %}
+Tervetuloa sovellukseen!
+<br>
+<form action="/login" method="POST">
+<p>Käyttäjätunnus:<br>
+<input type="text" name="username"</p>
+<p>Salasana:<br>
+<input type="password" name="password"</p>
+<input type="submit" value="Kirjaudu sisään">
+</form>
+{% endif %}
+<p>
+Lankojen määrä: {{ amount }}
 <hr>
-{% for message in messages %}
 {% for title in titles %}
 <b>
-{{ title[0] }}
+    <a href="/thread/{{ title[0] }}"> {{ title[1] }} </a>
+    {{ title[2] }}
+    Tykkäykset: {{ title[3] }}
+    Luotu: {{ title[4].strftime("%Y-%m-%d %H:%M:%S") }} <br>
 </b>
-<p>
-{{ message[0] }}
 <hr>
 {% endfor %}
-{% endfor %}
-<a href="/new">Lähetä viesti</a>
+
+{% endblock %}
+
