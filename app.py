@@ -38,12 +38,12 @@ def reply():
 @app.route("/create", methods=["POST"])
 def send():
     title = request.form["title"]
-    sql = "INSERT INTO threads (title, created_by, date) VALUES (:title, 69, NOW()) RETURNING id"
-    result = db.session.execute(sql, {"title":title})
+    sql = "INSERT INTO threads (title, created_by, date) VALUES (:title, :by, NOW()) RETURNING id"
+    result = db.session.execute(sql, {"title":title, "by":session["username"]})
     thread_id = result.fetchone()[0]
     message = request.form["message"]
-    sql = "INSERT INTO messages (content, thread_id, created_by, date) VALUES (:message, :thread_id, 69, NOW())"
-    db.session.execute(sql, {"message":message, "thread_id":thread_id})
+    sql = "INSERT INTO messages (content, thread_id, created_by, date) VALUES (:message, :thread_id, :by, NOW())"
+    db.session.execute(sql, {"message":message, "thread_id":thread_id, "by":session["username"]})
     db.session.commit()
     return redirect("/")
 
