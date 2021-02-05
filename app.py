@@ -13,7 +13,7 @@ db = SQLAlchemy(app)
 
 @app.route("/")
 def index():
-    sql = "SELECT id, title, created_by, thanks, date FROM threads ORDER BY id DESC"
+    sql = "SELECT id, title, created_by, date FROM threads ORDER BY id DESC"
     result = db.session.execute(sql)
     titles = result.fetchall()
     sql = "SELECT COUNT(*) FROM threads"
@@ -29,7 +29,7 @@ def new():
 def reply():
     thread_id = request.form["id"]
     message = request.form["message"]
-    sql = "INSERT INTO messages (content, thread_id, created_by, thanks, date) VALUES (:message, :thread_id, 69, 0, NOW())"
+    sql = "INSERT INTO messages (content, thread_id, created_by, date) VALUES (:message, :thread_id, 69, NOW())"
     db.session.execute(sql, {"message":message, "thread_id":thread_id})
     db.session.commit()
     return redirect("/thread/"+str(thread_id))
@@ -38,11 +38,11 @@ def reply():
 @app.route("/create", methods=["POST"])
 def send():
     title = request.form["title"]
-    sql = "INSERT INTO threads (title, created_by, thanks, date) VALUES (:title, 69, 0, NOW()) RETURNING id"
+    sql = "INSERT INTO threads (title, created_by, date) VALUES (:title, 69, NOW()) RETURNING id"
     result = db.session.execute(sql, {"title":title})
     thread_id = result.fetchone()[0]
     message = request.form["message"]
-    sql = "INSERT INTO messages (content, thread_id, created_by, thanks, date) VALUES (:message, :thread_id, 69, 0, NOW())"
+    sql = "INSERT INTO messages (content, thread_id, created_by, date) VALUES (:message, :thread_id, 69, NOW())"
     db.session.execute(sql, {"message":message, "thread_id":thread_id})
     db.session.commit()
     return redirect("/")
@@ -52,7 +52,7 @@ def thread(id):
     sql = "SELECT title FROM threads WHERE id=:id"
     result = db.session.execute(sql, {"id":id})
     title = result.fetchone()[0]
-    sql = "SELECT content, created_by, thanks, date FROM messages WHERE thread_id=:id"
+    sql = "SELECT content, created_by, date FROM messages WHERE thread_id=:id"
     result = db.session.execute(sql, {"id":id})
     messages = result.fetchall()
     return render_template("thread.html", title=title, messages=messages, id=id)
@@ -61,10 +61,29 @@ def thread(id):
 def login():
     username = request.form["username"]
     password = request.form["password"]
-    session["username"] = username
-    return redirect("/")
+    sql ="SELECT pass FROM users WHERE name=:username"
+    result = db.session.execute(sql, {"username":username})
+    user = result.fetchone()
+    if user == None:
+        return redirect("/")
+    else:
+        hash_value = user[0]
+        if check_password_hash(hash_value,password):
+            session["username"] = username
+        return redirect("/")
+    
 
 @app.route("/logout")
 def logout():
     del session["username"]
+    return redirect("/")
+
+@app.route("/register", methods=["POST"])
+def register():
+    password = request.form["pass"]
+    name = request.form["name"]
+    hash_value = generate_password_hash(password)
+    sql = "INSERT INTO users (name, pass, admin, date) VALUES (:name, :password, FALSE, NOW())"
+    db.session.execute(sql, {"name":name, "password":hash_value})
+    db.session.commit()
     return redirect("/")

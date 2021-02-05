@@ -9,13 +9,29 @@ Tervetuloa sovellukseen! {{ session.username }}  <a href="/new">Tee lanka</a>
 {% else %}
 Tervetuloa sovellukseen!
 <br>
-<form action="/login" method="POST">
-<p>Käyttäjätunnus:<br>
-<input type="text" name="username"</p>
-<p>Salasana:<br>
-<input type="password" name="password"</p>
-<input type="submit" value="Kirjaudu sisään">
-</form>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <form action="/login" method="POST">
+        <p>Käyttäjätunnus:<br>
+        <input type="text" name="username"</p>
+        <p>Salasana:<br>
+        <input type="password" name="password"</p>
+        <input type="submit" value="Kirjaudu sisään">
+        </form>
+    </div>
+    <div class="col">
+      <form action="/register" method="POST">
+        <p><b>REKISTERÖIDY</b><br>
+        <input type="text" name="name"</p>
+        <p>Salasana:<br>
+        <input type="password" name="pass"</p>
+        <input type="submit" value="Rekisteröidy">
+        </form>
+    </div>
+  </div>
+</div>
+
 {% endif %}
 <p>
 Lankojen määrä: {{ amount }}
@@ -35,8 +51,8 @@ Lankojen määrä: {{ amount }}
           <tr class="table-primary">
             <th scope="row"><a href="/thread/{{ title[0] }}"> {{ title[1] }} </a></th>
             <td>{{ title[2] }}</td>
-            <td>{{ title[3] }}</td>
-            <td>{{ title[4].strftime("%Y-%m-%d %H:%M:%S") }}</td>
+            <td>PLACEHOLDER 0</td>
+            <td>{{ title[3].strftime("%Y-%m-%d %H:%M:%S") }}</td>
           </tr>
           {% endfor %}
         </tbody>
