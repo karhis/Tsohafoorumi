@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block title %}Etusivu{% endblock %}
+{% block content %}
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Käyttäjä</th>
+        <th scope="col">Luotu</th>
+      </tr>
+    </thead>
+    <tbody>  
+        {% for user in users %}
+            <tr class="table-info">
+            <th scope="row">{{ user[0] }}</th>
+            <td><a href="/profile/{{ user[0] }}"> {{ user[1] }}</a></td>
+            <td>{{ user[2] }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

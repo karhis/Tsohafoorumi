@@ -3,7 +3,20 @@
 {% block content %}
 <h2>Etusivu</h2>
 {% if session.username %}
-Tervetuloa sovellukseen! {{ session.username }}  <a href="/new">Tee lanka</a>
+Tervetuloa sovellukseen!  <a href="/new">Tee lanka</a>
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <form action="/result" method="GET">
+        Hakusana: <input type="text" name="query">
+        <br>
+        <input type="submit" value="Hae">
+        </form>
+    </div>
+  </div>
+</div>
+
 <br>
 <a href="/logout">Kirjaudu ulos</a>
 {% else %}
@@ -29,12 +42,22 @@ Tervetuloa sovellukseen!
         <input type="submit" value="Rekisteröidy">
         </form>
     </div>
+    <div class="col">
+      <form action="/result" method="GET">
+        Hakusana: <input type="text" name="query">
+        <br>
+        <input type="submit" value="Hae">
+        </form>
+    </div>
   </div>
 </div>
 
 {% endif %}
+
 <p>
 Lankojen määrä: {{ amount }}
+<hr>
+<a href="/userlist">Lista käyttäjistä</a>
 <hr>
 <b>
     <table class="table table-hover">
@@ -50,16 +73,20 @@ Lankojen määrä: {{ amount }}
             {% for title in titles %}
           <tr class="table-primary">
             <th scope="row"><a href="/thread/{{ title[0] }}"> {{ title[1] }} </a></th>
-            <td>{{ title[2] }}</td>
-            <td>PLACEHOLDER 0</td>
+            <td>{{ title[4] }}</td>
+            {% set th = namespace(likes=0) %}
+            {% for thank in thanks %}
+            {% if thank[0] == title[0]: %}
+              {% set th.likes = thank[1] %}
+            {% endif %}
+            {% endfor %}
+            <td>{{ th.likes }}</td>
             <td>{{ title[3].strftime("%Y-%m-%d %H:%M:%S") }}</td>
           </tr>
           {% endfor %}
         </tbody>
     </table>
 </b>
-<hr>
-
 
 {% endblock %}
 

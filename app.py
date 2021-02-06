@@ -13,13 +13,16 @@ db = SQLAlchemy(app)
 
 @app.route("/")
 def index():
-    sql = "SELECT id, title, created_by, date FROM threads ORDER BY id DESC"
+    sql = "SELECT T.id, T.title, T.created_by, T.date, U.name FROM threads T, users U WHERE T.visible=1 AND T.created_by=U.id ORDER BY date DESC"
     result = db.session.execute(sql)
     titles = result.fetchall()
-    sql = "SELECT COUNT(*) FROM threads"
+    sql = "SELECT thread_id, COUNT(*) FROM thanks WHERE visible=1 GROUP BY thread_id"
+    result = db.session.execute(sql)
+    thanks = result.fetchall()
+    sql = "SELECT COUNT(*) FROM threads WHERE visible=1"
     result = db.session.execute(sql)
     amount = result.fetchone()[0]
-    return render_template("index.html", titles=titles, amount=amount)
+    return render_template("index.html", titles=titles, amount=amount, thanks=thanks)
 
 @app.route("/new")
 def new():
@@ -29,48 +32,68 @@ def new():
 def reply():
     thread_id = request.form["id"]
     message = request.form["message"]
-    sql = "INSERT INTO messages (content, thread_id, created_by, date) VALUES (:message, :thread_id, 69, NOW())"
-    db.session.execute(sql, {"message":message, "thread_id":thread_id})
+    sql = "INSERT INTO messages (content, thread_id, created_by) VALUES (:message, :thread_id, :by)"
+    db.session.execute(sql, {"message":message, "thread_id":thread_id, "by":session["username"]})
     db.session.commit()
     return redirect("/thread/"+str(thread_id))
 
+@app.route("/thank_message", methods=["POST"])
+def thank_message():
+        message_id = request.form["message_id"]
+        sql = "INSERT INTO thanks (message_id, created_by) VALUES (:message_id, :created_by)"
+        db.session.execute(sql, {"message_id":message_id, "created_by":session["username"]})
+        db.session.commit()
+        return redirect("/")
+
+@app.route("/thank_thread", methods=["POST"])
+def thank_thread():
+        thread_id = request.form["thread_id"]
+        sql = "INSERT INTO thanks (thread_id, created_by) VALUES (:thread_id, :created_by)"
+        db.session.execute(sql, {"thread_id":thread_id, "created_by":session["username"]})
+        db.session.commit()
+        return redirect("/")
 
 @app.route("/create", methods=["POST"])
 def send():
     title = request.form["title"]
-    sql = "INSERT INTO threads (title, created_by, date) VALUES (:title, :by, NOW()) RETURNING id"
+    sql = "INSERT INTO threads (title, created_by) VALUES (:title, :by) RETURNING id"
     result = db.session.execute(sql, {"title":title, "by":session["username"]})
     thread_id = result.fetchone()[0]
     message = request.form["message"]
-    sql = "INSERT INTO messages (content, thread_id, created_by, date) VALUES (:message, :thread_id, :by, NOW())"
+    sql = "INSERT INTO messages (content, thread_id, created_by) VALUES (:message, :thread_id, :by)"
     db.session.execute(sql, {"message":message, "thread_id":thread_id, "by":session["username"]})
     db.session.commit()
     return redirect("/")
 
 @app.route("/thread/<int:id>")
 def thread(id):
-    sql = "SELECT title FROM threads WHERE id=:id"
+    sql = "SELECT title FROM threads WHERE id=:id AND visible=1"
     result = db.session.execute(sql, {"id":id})
     title = result.fetchone()[0]
-    sql = "SELECT content, created_by, date FROM messages WHERE thread_id=:id"
+    sql = "SELECT M.id, M.content, M.created_by, M.date, U.name FROM messages M, users U WHERE thread_id=:id AND M.visible=1 AND M.created_by=U.id"
     result = db.session.execute(sql, {"id":id})
     messages = result.fetchall()
-    return render_template("thread.html", title=title, messages=messages, id=id)
+    sql = "SELECT message_id, COUNT(*) FROM thanks WHERE visible=1 GROUP BY message_id"
+    result = db.session.execute(sql)
+    thanks = result.fetchall()
+    return render_template("thread.html", title=title, messages=messages, id=id, thanks=thanks)
 
 @app.route("/login", methods=["POST"])
 def login():
     username = request.form["username"]
     password = request.form["password"]
-    sql ="SELECT pass FROM users WHERE name=:username"
+    sql ="SELECT pass, id FROM users WHERE name=:username AND visible=1"
     result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
     if user == None:
-        return redirect("/")
+        return redirect("/loginerror")
     else:
         hash_value = user[0]
         if check_password_hash(hash_value,password):
-            session["username"] = username
-        return redirect("/")
+            session["username"] = user[1]
+            return redirect("/")
+        else:
+            return redirect("/loginerror")
     
 
 @app.route("/logout")
@@ -83,7 +106,59 @@ def register():
     password = request.form["pass"]
     name = request.form["name"]
     hash_value = generate_password_hash(password)
-    sql = "INSERT INTO users (name, pass, admin, date) VALUES (:name, :password, FALSE, NOW())"
-    db.session.execute(sql, {"name":name, "password":hash_value})
+    try:
+        sql = "INSERT INTO users (name, pass) VALUES (:name, :password)"
+        db.session.execute(sql, {"name":name, "password":hash_value})
+        db.session.commit()
+        return redirect("/")
+    except:
+        return redirect("/registererror")
+
+@app.route("/registererror")
+def registererror():
+    return render_template("registererror.html")
+
+@app.route("/loginerror")
+def loginerror():
+    return render_template("loginerror.html")
+
+@app.route("/userlist")
+def userlist():
+    sql = "SELECT id, name, date FROM users WHERE visible=1 ORDER BY id DESC"
+    result = db.session.execute(sql)
+    users = result.fetchall()
+    return render_template("/userlist.html", users=users)
+
+@app.route("/result", methods=["GET"])
+def result():
+    query = request.args["query"]
+    sql = "SELECT id, content, thread_id FROM messages WHERE visible=1 AND content LIKE :query"
+    result = db.session.execute(sql, {"query":"%"+query+"%"})
+    messages = result.fetchall()
+    sql = "SELECT id, name FROM users WHERE visible=1 AND name LIKE :query"
+    result = db.session.execute(sql, {"query":"%"+query+"%"})
+    users = result.fetchall()
+    sql = "SELECT T.id, T.title, T.created_by, T.date, U.name FROM threads T, users U WHERE T.visible=1 AND U.id=T.created_by AND T.title LIKE :query"
+    result = db.session.execute(sql, {"query":"%"+query+"%"})
+    threads = result.fetchall()
+    return render_template("result.html", messages=messages, users=users, threads=threads)
+
+@app.route("/profile/<id>")
+def profile(id):
+    sql = "SELECT M.id, M.content, M.thread_id, M.date, T.title FROM messages M, threads T WHERE M.visible=1 AND M.created_by=:id AND T.id=M.thread_id"
+    result = db.session.execute(sql, {"id":id})
+    messages = result.fetchall()
+    sql = "SELECT name FROM users WHERE visible=1 AND id=:id"
+    result = db.session.execute(sql, {"id":id})
+    username = result.fetchone()[0]
+    return render_template("profile.html", messages=messages, id=id, username=username)
+
+@app.route("/delete_thread", methods=["POST"])
+def delete_thread():
+    thread_id = request.form["thread_id"]
+    sql = "UPDATE threads SET visible=0 WHERE id=:id"
+    db.session.execute(sql, {"id":thread_id})
+    sql = "UPDATE messages SET visible=0 WHERE thread_id=:id"
+    db.session.execute(sql, {"id":thread_id})
     db.session.commit()
     return redirect("/")
