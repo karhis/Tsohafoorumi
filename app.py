@@ -5,11 +5,15 @@ from os import getenv
 from datetime import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
 
+
+
 app = Flask(__name__)
 app.secret_key = getenv("SECRET_KEY")
 app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
+
+
 
 @app.route("/")
 def index():
@@ -78,17 +82,22 @@ def thread(id):
     thanks = result.fetchall()
     return render_template("thread.html", title=title, messages=messages, id=id, thanks=thanks)
 
+
 @app.route("/login", methods=["POST"])
 def login():
     username = request.form["username"]
     password = request.form["password"]
-    sql ="SELECT pass, id FROM users WHERE name=:username AND visible=1"
+    sql ="SELECT pass, id, admin FROM users WHERE name=:username AND visible=1"
     result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
     if user == None:
         return redirect("/loginerror")
     else:
         hash_value = user[0]
+        if user[2] == True:
+            session["admin"] = True
+        else:
+            session["admin"] = False
         if check_password_hash(hash_value,password):
             session["username"] = user[1]
             return redirect("/")
@@ -160,5 +169,39 @@ def delete_thread():
     db.session.execute(sql, {"id":thread_id})
     sql = "UPDATE messages SET visible=0 WHERE thread_id=:id"
     db.session.execute(sql, {"id":thread_id})
+    db.session.commit()
+    return redirect("/")
+
+@app.route("/delete_message", methods=["POST"])
+def delete_message():
+    message_id = request.form["message_id"]
+    sql = "UPDATE messages SET visible=0 WHERE id=:id"
+    db.session.execute(sql, {"id":message_id})
+    sql = "UPDATE messages SET visible=0 WHERE thread_id=:id"
+    db.session.execute(sql, {"id":message_id})
+    db.session.commit()
+    return redirect("/")    
+
+@app.route("/profile/<id>/chat", methods=["GET"])
+def chat(id):
+    sql = "SELECT * FROM messages WHERE created_by=:created_by AND sent_to=:sent_to"
+    result = db.session.execute(sql, {"created_by":session["username"], "sent_to":id})
+    sent_dms = result.fetchall()
+    sql = "SELECT * FROM messages WHERE created_by=:created_by AND sent_to=:sent_to"
+    result = db.session.execute(sql, {"created_by":id, "sent_to":session["username"]})
+    got_dms = result.fetchall()
+    sql = "SELECT name FROM users WHERE visible=1 AND id=:id"
+    result = db.session.execute(sql, {"id":id})
+    username = result.fetchone()[0]
+    dms = sent_dms + got_dms
+    dms.sort()
+    return render_template("chat.html", dms=dms, id=id, username=username)
+
+@app.route("/send_dm", methods=["POST"])
+def send_dm():
+    message = request.form["message"]
+    sent_to = request.form["sent_to"]
+    sql = "INSERT INTO messages (content, created_by, sent_to) VALUES (:content, :created_by, :sent_to)"
+    db.session.execute(sql, {"content":message, "created_by":session["username"], "sent_to":sent_to})
     db.session.commit()
     return redirect("/")

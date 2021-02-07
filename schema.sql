@@ -11,7 +11,8 @@ CREATE TABLE messages (
     thread_id INTEGER,
     created_by INTEGER,
     visible INTEGER DEFAULT 1,
-    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    sent_to INTEGER
 );
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,

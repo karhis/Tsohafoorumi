@@ -2,6 +2,7 @@
 {% block title %}Etusivu{% endblock %}
 {% block content %}
 <h1>{{ username }}</h1>
+<a href="/profile/{{id}}/chat">Chat</a>
 Lähetetyt viestit:
 <br>
 {% for message in messages %}

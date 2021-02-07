@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block title %}Etusivu{% endblock %}
+{% block content %}
+<h1>{{ username }} {{ id }}</h1>
+<br>
+{% for dm in dms %}
+<br>
+{% if dm[3] == id|int() %} 
+{{ username }}: {{ dm[1] }}
+{% else %}
+Minä: {{ dm[1] }}
+{% endif %}
+{% endfor %}
+<form action="/send_dm" method="POST">
+    <p>Viesti:<br>
+    <input type="text" name="message"></p>
+    <input type="hidden" name="sent_to" value="{{ id }}">
+    <input type="submit" value="Lähetä viesti">
+</form>
+{% endblock %}

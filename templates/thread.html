@@ -12,10 +12,12 @@
   </fieldset>
 </form>
 <br>
+{% if session.username %}
 <form action="/thank_thread" method="POST">
 <input type="hidden" name="thread_id" value="{{ id }}">
 <input type="submit" value="Tykkää langasta">
 </form>
+{% endif %}
 {% for reply in messages %}
 <br><p>
 <div class="jumbotron">
@@ -31,15 +33,27 @@
     {% endif %}
     {% endfor %}
     <p>{{ ms.likes }}</p>
+    {% if session.username %}
     <form action="/thank_message" method="POST">
     <input type="hidden" name="message_id" value="{{ reply[0] }}">
     <input type="submit" value="Tykkää viestistä">
     </form> 
+    <form action="/delete_message" method="POST">
+      <fieldset>
+        <fieldset class="form-group">
+          <legend>ADMIN: Poista viesti</legend>
+        <input type="hidden" name="message_id" value="{{ reply[0] }}">
+        <button type="submit" class="btn btn-danger">POISTA</button>
+        </fieldset>
+      </fieldset>
+    </form>
+    {% endif %}
 </div>
 </p>
 {% endfor %}
 <br>
 <p>
+{% if session.username %}
 Vastaa lankaan
 </p>
 <form action="/reply" method="POST">
@@ -48,5 +62,5 @@ Viesti:
     <input type="hidden" name="id" value="{{ id }}">
     <input type="submit" value="Lähetä">
     </form>
-
+{% endif %}
 {% endblock %}
