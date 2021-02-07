@@ -2,7 +2,9 @@
 {% block title %}Etusivu{% endblock %}
 {% block content %}
 <h1>{{ username }}</h1>
+{% if session.username %}
 <a href="/profile/{{id}}/chat">Chat</a>
+{% endif %}
 Lähetetyt viestit:
 <br>
 {% for message in messages %}
