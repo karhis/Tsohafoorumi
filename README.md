@@ -21,7 +21,7 @@ Käytettävyyteen ei ole kiinnitetty huomiota, joten mitään error/success vies
 TODO:
 * Tietokannan refaktorointi
 * Rakenteen refaktorointi
-* Ihan kaiken refaktorointi ja korjaus
+* __Ihan kaiken refaktorointi ja korjaus__
 * Admin toiminnallisuus (Poistot, bannaus, lanka lukkoon, keskustelualueet)
 * Keskustelualueet eri aiheille
 * Tietoturva
