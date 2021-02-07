@@ -14,7 +14,7 @@
             <tr class="table-info">
             <th scope="row">{{ user[0] }}</th>
             <td><a href="/profile/{{ user[0] }}"> {{ user[1] }}</a></td>
-            <td>{{ user[2] }}</td>
+            <td>{{ user[2].strftime("%Y-%m-%d %H:%M:%S") }}</td>
             </tr>
         {% endfor %}
     </tbody>
