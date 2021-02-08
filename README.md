@@ -1,5 +1,7 @@
 # Tsohafoorumi
 
+https://tsohafoorumi2020.herokuapp.com/
+
 Harjoitustyön aiheena on keskustelupalstasovellus, phpbb tyyliin, muutamilla lisäyksillä.
 
 Sovelluksessa on kaksi valmista käyttäjää admin:admin ja user:user, voit tehdä myös uuden käyttäjän. Yksityisviestit löytää: Lista käyttäjistä -> *käyttäjä* -> Chat.
