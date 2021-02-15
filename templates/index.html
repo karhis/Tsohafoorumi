@@ -77,7 +77,7 @@ Lankojen määrä: {{ amount }}
             {% set th = namespace(likes=0) %}
             {% for thank in thanks %}
             {% if thank[0] == title[0]: %}
-              {% set th.likes = thank[1] %}
+              {% set th.likes = thank[2] %}
             {% endif %}
             {% endfor %}
             <td>{{ th.likes }}</td>

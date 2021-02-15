@@ -11,10 +11,12 @@
 Minä: {{ dm[1] }}
 {% endif %}
 {% endfor %}
-<form action="/send_dm" method="POST">
+<form action="/reply" method="POST">
     <p>Viesti:<br>
-    <input type="text" name="message"></p>
+    <input type="text" name="message">
+    </p>
     <input type="hidden" name="sent_to" value="{{ id }}">
+    <input type="hidden" name="reply_type" value="1">
     <input type="submit" value="Lähetä viesti">
 </form>
 {% endblock %}
