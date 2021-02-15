@@ -21,7 +21,7 @@ Tällä hetkellä viestejä ja lankoja voi poistaa kuka vain, admin flag ei tois
 Käytettävyyteen ei ole kiinnitetty huomiota, joten mitään error/success viestejä ei oikeastaan ole.  
 
 TODO:
-* Tietokannan refaktorointi
+* ~~Tietokannan refaktorointi~~
 * Rakenteen refaktorointi
 * __Ihan kaiken refaktorointi ja korjaus__
 * Admin toiminnallisuus (Poistot, bannaus, lanka lukkoon, keskustelualueet)
