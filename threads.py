@@ -1,10 +1,12 @@
 from db import db
 
+
 def get_thread_info():
     sql = "SELECT T.id, T.title, T.created_by, T.date, U.name FROM threads T, users U WHERE T.visible=1 AND T.created_by=U.id ORDER BY date DESC"
     result = db.session.execute(sql)
     titles = result.fetchall()
     return titles
+
 
 def get_thread_count():
     sql = "SELECT COUNT(*) FROM threads WHERE visible=1"

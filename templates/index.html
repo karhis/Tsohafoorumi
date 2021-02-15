@@ -5,18 +5,6 @@
 {% if session.username %}
 Tervetuloa sovellukseen!  <a href="/new">Tee lanka</a>
 
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <form action="/result" method="GET">
-        Hakusana: <input type="text" name="query">
-        <br>
-        <input type="submit" value="Hae">
-        </form>
-    </div>
-  </div>
-</div>
-
 <br>
 <a href="/logout">Kirjaudu ulos</a>
 {% else %}
@@ -42,20 +30,11 @@ Tervetuloa sovellukseen!
         <input type="submit" value="Rekisteröidy">
         </form>
     </div>
-    <div class="col">
-      <form action="/result" method="GET">
-        Hakusana: <input type="text" name="query">
-        <br>
-        <input type="submit" value="Hae">
-        </form>
-    </div>
   </div>
 </div>
 
 {% endif %}
 
-<p>
-Lankojen määrä: {{ amount }}
 <hr>
 <a href="/userlist">Lista käyttäjistä</a>
 <hr>
@@ -64,16 +43,19 @@ Lankojen määrä: {{ amount }}
         <thead>
           <tr>
             <th scope="col">Otsikko </a></th>
-            <th scope="col">By</th>
+            <th scope="col">Vastaukset</th>
             <th scope="col">Tykkäykset</th>
-            <th scope="col">Luotu</th>
+            <th scope="col">Viimeisin viesti</th>
           </tr>
         </thead>
         <tbody>
             {% for title in titles %}
           <tr class="table-primary">
-            <th scope="row"><a href="/thread/{{ title[0] }}"> {{ title[1] }} </a></th>
-            <td>{{ title[4] }}</td>
+            <th scope="row">
+              <h3><a href="/thread/{{ title[0] }}"> {{ title[1] }}</a></h3>
+              <a href="/profile/{{ title[2] }}"> {{ title[4] }}</a> >> {{ title[3].strftime("%Y-%m-%d %H:%M:%S") }}
+            </th>
+            <td>{{ title[5] }}</td>
             {% set th = namespace(likes=0) %}
             {% for thank in thanks %}
             {% if thank[0] == title[0]: %}
@@ -87,6 +69,7 @@ Lankojen määrä: {{ amount }}
         </tbody>
     </table>
 </b>
-
+<h3>Tilastoja</h3>
+<p>Lankojen määrä: {{ amount }}</p>
 {% endblock %}
 

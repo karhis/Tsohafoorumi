@@ -1,7 +1,14 @@
 <!doctype html>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 <title>Tsohafoorumi - {% block title %}{% endblock %}</title>
-<h1><a href="/">Tsohafoorumi</a></h1>
-<hr>
+<nav class="navbar navbar-lightjustify-content-between" style="background-color: dodgerblue">
+    <a class="navbar-brand"><a href="/" class="text-white">Tsohafoorumi</a></a>
+    <form class="form-inline" action="/result" method="GET">
+      <input class="form-control mr-sm-2" type="search" placeholder="Etsi..." name="query">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </nav>
+
 {% block content %}{% endblock %}
-<hr>
