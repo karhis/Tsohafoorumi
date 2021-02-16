@@ -1,6 +1,7 @@
 CREATE TABLE threads (
     id SERIAL PRIMARY KEY,
     title TEXT,
+    subforum_id INTEGER,
     created_by INTEGER,
     visible INTEGER DEFAULT 1,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -29,3 +30,15 @@ CREATE TABLE thanks (
     created_by INTEGER,
     visible INTEGER DEFAULT 1
 );
+CREATE TABLE forums (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    visible INTEGER DEFAULT 1
+);
+CREATE TABLE subforums (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    descri TEXT,
+    forum_id INTEGER,
+    visible INTEGER DEFAULT 1
+)

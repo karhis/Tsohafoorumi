@@ -1,9 +1,9 @@
 from db import db
 
 
-def get_thread_info():
-    sql = "SELECT T.id, T.title, T.created_by, T.date, U.name FROM threads T, users U WHERE T.visible=1 AND T.created_by=U.id ORDER BY date DESC"
-    result = db.session.execute(sql)
+def get_thread_info(subforum_id):
+    sql = "SELECT T.id, T.title, T.created_by, T.date, U.name FROM threads T, users U WHERE T.visible=1 AND T.created_by=U.id AND subforum_id=:subforum_id ORDER BY date DESC"
+    result = db.session.execute(sql, {"subforum_id":subforum_id})
     titles = result.fetchall()
     return titles
 
@@ -27,9 +27,9 @@ def delete_thread(thread_id):
     db.session.execute(sql, {"id":thread_id})
     db.session.commit()
 
-def new(title, username):
-    sql = "INSERT INTO threads (title, created_by) VALUES (:title, :by) RETURNING id"
-    result = db.session.execute(sql, {"title":title, "by":username})
+def new(title, username, subforum_id):
+    sql = "INSERT INTO threads (title, created_by, subforum_id) VALUES (:title, :by, :subforum_id) RETURNING id"
+    result = db.session.execute(sql, {"title":title, "by":username, "subforum_id":subforum_id})
     return result.fetchone()[0]
 
 def get_title(thread_id):

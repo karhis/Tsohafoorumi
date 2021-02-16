@@ -37,14 +37,14 @@ Tervetuloa sovellukseen!
 
 <hr>
 <a href="/userlist">Lista käyttäjistä</a>
-<a href="/newforum">Luo keskustelualue</a>
+<a href="/forum/{{ forum_id }}/newforum">Luo alalauta</a>
 <hr>
 <b>
-  {% for forum in forumlist %}
+    <h3><a href="/forum/{{ forum_id }}"> {{ forumname }} </h3></a>
     <table class="table table-hover">
         <thead>
           <tr>
-            <th scope="col"><h3><a href="/forum/{{ forum[0] }}">{{ forum[1] }}</a></h3></th>
+            <th scope="col"><h3>Aihealue</h3></th>
             <th scope="col">Keskustelut</th>
             <th scope="col">Viestit</th>
             <th scope="col">Viimeisin viesti</th>
@@ -52,21 +52,18 @@ Tervetuloa sovellukseen!
         </thead>
         <tbody>
             {% for subforum in subforumlist %}
-            {% if subforum[3] == forum[0] %}
-              <tr class="table-primary">
-                <th scope="row">
-                  <h3><a href="/forum/{{ forum[0] }}/sub/{{ subforum[0] }}"> {{ subforum[1] }}</a></h3>
-                  {{ subforum[2] }}
-                </th>
-                <td>placeholder</td>
-                <td>placeholder</td>
-                <td>eilen</td>
-              </tr>
-            {% endif %}
+          <tr class="table-primary">
+            <th scope="row">
+              <h3><a href="/forum/{{ forum_id }}/sub/{{ subforum[0] }}"> {{ subforum[1] }}</a></h3>
+              {{ subforum[2] }}
+            </th>
+            <td>placeholder</td>
+            <td>placeholder</td>
+            <td>eilen</td>
             {% endfor %}
+          </tr>
         </tbody>
     </table>
-    {% endfor %}
 </b>
 <h3>Tilastoja</h3>
 <p>Lankojen määrä: {{ amount }}</p>
