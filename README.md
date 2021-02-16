@@ -15,6 +15,7 @@ Sovelluksessa on (jollain tasolla toimivat) seuraavat toiminnallisuudet:
 * Vastauksesta tykkääminen
 * Yksityisviestit kahden käyttäjän kesken
 * Viestin, langan tai käyttäjän hakeminen
+* Keskustelualueiden ja niiden alalautojen teko
 
 Toistaiseksi en ole kiinnittänyt huomioita muuhun kuin toiminnallisuuteen, ideana on vaan ollut saada jokin toimimaan edes jotenkin.  
 Tällä hetkellä viestejä ja lankoja voi poistaa kuka vain, admin flag ei toistaiseksi toimi. (Lankoja voi poistaa myös jos et ole kirjautunut sisään).  
@@ -25,7 +26,7 @@ TODO:
 * ~~Rakenteen refaktorointi~~
 * __Ihan kaiken refaktorointi ja korjaus__
 * Admin toiminnallisuus (Poistot, bannaus, lanka lukkoon, keskustelualueet)
-* Keskustelualueet eri aiheille
+* ~~Keskustelualueet eri aiheille~~
 * Tietoturva
 * Ulkoasu
 * _Lankojen lukukerrat ja muut tilastot?_
