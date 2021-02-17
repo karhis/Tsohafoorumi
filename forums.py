@@ -33,3 +33,32 @@ def new_subforum(name,descri,forum_id):
     sql = "INSERT INTO subforums (name, descri, forum_id) VALUES (:name, :descri, :forum_id)"
     db.session.execute(sql, {"name":name, "descri":descri, "forum_id":forum_id})
     db.session.commit()
+
+def delete_forum(forum_id):
+    sql = "UPDATE forums SET visible=0 WHERE id=:id"
+    db.session.execute(sql, {"id":forum_id})
+    sql = "UPDATE subforums SET visible=0 WHERE forum_id=:forum_id RETURNING id"
+    result = db.session.execute(sql, {"forum_id":forum_id})
+    subforumlist = result.fetchall()
+    threadlist = []
+    for subforum in subforumlist:
+        sql = "UPDATE threads SET visible=0 WHERE subforum_id=:subforum_id RETURNING id"
+        result = db.session.execute(sql, {"subforum_id":subforum[0]})
+        queryids = result.fetchall()
+        for query in queryids:
+            threadlist.append(query[0])
+    for thread in threadlist:
+        sql = "UPDATE messages SET visible=0 WHERE thread_id=:thread_id"
+        db.session.execute(sql, {"thread_id":thread})
+    db.session.commit()
+
+def delete_subforum(subforum_id):
+    sql = "UPDATE subforums SET visible=0 WHERE id=:id"
+    db.session.execute(sql, {"id":subforum_id})
+    sql = "UPDATE threads SET visible=0 WHERE subforum_id=:subforum_id RETURNING id"
+    result = db.session.execute(sql, {"subforum_id":subforum_id})
+    threadlist = result.fetchall()
+    for thread in threadlist:
+        sql = "UPDATE messages SET visible=0 WHERE thread_id=:thread_id"
+        db.session.execute(sql, {"thread_id":thread[0]})
+    db.session.commit()

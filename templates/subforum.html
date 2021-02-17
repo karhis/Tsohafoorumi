@@ -34,7 +34,18 @@ Tervetuloa sovellukseen!
 </div>
 
 {% endif %}
-
+{% if session["mod"] %}
+  <hr>
+  <form action="/delete" method="POST">
+    <fieldset>
+      <fieldset class="form-group">
+      <input type="hidden" name="delete_id" value="{{ subforum_id }}">
+      <input type="hidden" name="delete_type" value="3">
+      <button type="submit" class="btn btn-danger">POISTA ALALAUTA</button>
+      </fieldset>
+    </fieldset>
+  </form>
+{% endif %}
 <hr>
 <a href="/userlist">Lista käyttäjistä</a>
 <hr>

@@ -109,8 +109,14 @@ def thank():
 def delete():   
     delete_id = request.form["delete_id"]
     delete_type = request.form["delete_type"]
-    if delete_type == "1":          #1 for messages, 0 for threads
+    if delete_type == "1":          #1 for messages, 0 for threads, 2 for forums, 3 for subforums
         messages.delete_message(delete_id)
+        return redirect("/")
+    if delete_type == "2":
+        forums.delete_forum(delete_id)
+        return redirect("/")
+    if delete_type == "3":
+        forums.delete_subforum(delete_id)
         return redirect("/")
     else: 
         threads.delete_thread(delete_id)

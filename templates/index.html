@@ -36,8 +36,14 @@ Tervetuloa sovellukseen!
 {% endif %}
 
 <hr>
+
+{% if session["mod"] %}
+  <a href="/newforum">Luo keskustelualue</a>
+{% endif %}
+
+<hr>
 <a href="/userlist">Lista käyttäjistä</a>
-<a href="/newforum">Luo keskustelualue</a>
+
 <hr>
 <b>
   {% for forum in forumlist %}

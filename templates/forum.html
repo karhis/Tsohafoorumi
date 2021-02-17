@@ -34,10 +34,22 @@ Tervetuloa sovellukseen!
 </div>
 
 {% endif %}
-
+{% if session["mod"] %}
+  <hr>
+  <a href="/forum/{{ forum_id }}/newforum">Luo alalauta</a>
+  <form action="/delete" method="POST">
+    <fieldset>
+      <fieldset class="form-group">
+      <input type="hidden" name="delete_id" value="{{ forum_id }}">
+      <input type="hidden" name="delete_type" value="2">
+      <button type="submit" class="btn btn-danger">POISTA KESKUSTELUALUE</button>
+      </fieldset>
+    </fieldset>
+  </form>
+{% endif %}
 <hr>
 <a href="/userlist">Lista käyttäjistä</a>
-<a href="/forum/{{ forum_id }}/newforum">Luo alalauta</a>
+
 <hr>
 <b>
     <h3><a href="/forum/{{ forum_id }}"> {{ forumname }} </h3></a>

@@ -11,12 +11,18 @@ def login(username,password):
         return False
     else:
         if check_password_hash(user[0],password):
-            session["username"] = user[1]
-            return True
+            if user[2]:
+                session["username"] = user[1]
+                session["mod"] = True
+                return True
+            else:
+                session["username"] = user[1]
+                return True
         else:
             return False
 
 def logout():
+    session["mod"] = False
     del session["username"]
 
 def register(username,password):
