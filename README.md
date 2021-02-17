@@ -25,7 +25,7 @@ TODO:
 * Tietokannan refaktorointi
 * ~~Rakenteen refaktorointi~~
 * __Ihan kaiken refaktorointi ja korjaus__
-* Admin toiminnallisuus (Poistot, bannaus, lanka lukkoon, keskustelualueet)
+* Admin toiminnallisuus (~~Poistot,~~ bannaus, lanka lukkoon, ~~keskustelualueet~~)
 * ~~Keskustelualueet eri aiheille~~
 * Tietoturva
 * Ulkoasu
