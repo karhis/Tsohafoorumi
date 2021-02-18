@@ -166,8 +166,22 @@ def send():
 @app.route("/thread/<id>")
 def thread(id):
     title = threads.get_title(id)
+    locked = threads.get_locked(id)
     replys = messages.get_replys(id)
     likes = thanks.get_all_thanks()
-    return render_template("thread.html", title=title, messages=replys, id=id, thanks=likes)
+    return render_template("thread.html", title=title, locked=locked, messages=replys, id=id, thanks=likes)
+
+@app.route("/lock", methods=["POST"])
+def lock():   
+    lock_id = request.form["lock_id"]
+    lock_type = request.form["lock_type"]
+    if lock_type == "1":
+        threads.lock_thread(lock_id)
+        return redirect("/")
+    else:
+        threads.unlock_thread(lock_id)
+        return redirect("/")
+    
+    
 
 

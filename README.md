@@ -15,14 +15,13 @@ Sovelluksessa on seuraavat toiminnallisuudet:
 * (ADMIN) Lankojen, viestien, keskustelualuiden ja alalautojen poisto
 
 Toistaiseksi en ole kiinnittänyt huomioita muuhun kuin toiminnallisuuteen, ideana on vaan ollut saada jokin toimimaan edes jotenkin.  
-Tällä hetkellä viestejä ja lankoja voi poistaa kuka vain, admin flag ei toistaiseksi toimi. (Lankoja voi poistaa myös jos et ole kirjautunut sisään).  
 Käytettävyyteen ei ole kiinnitetty huomiota, joten mitään error/success viestejä ei oikeastaan ole.  
 
 TODO:
 * Tietokannan refaktorointi
 * ~~Rakenteen refaktorointi~~
 * __Ihan kaiken refaktorointi ja korjaus__
-* Admin toiminnallisuus (~~Poistot,~~ bannaus, lanka lukkoon, ~~keskustelualueet~~)
+* Admin toiminnallisuus (~~Poistot,~~ bannaus, ~~lanka lukkoon,~~ ~~keskustelualueet~~)
 * ~~Keskustelualueet eri aiheille~~
 * Tietoturva
 * Ulkoasu

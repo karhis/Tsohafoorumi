@@ -4,6 +4,7 @@ CREATE TABLE threads (
     subforum_id INTEGER,
     created_by INTEGER,
     visible INTEGER DEFAULT 1,
+    locked INTEGER DEFAULT 0,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE messages (

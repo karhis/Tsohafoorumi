@@ -63,6 +63,9 @@ Tervetuloa sovellukseen!
             {% for title in titles %}
           <tr class="table-primary">
             <th scope="row">
+              {% if title[5] == 1 %}
+                <i class="gg-lock"></i>
+              {% endif %}
               <h3><a href="/thread/{{ title[0] }}"> {{ title[1] }}</a></h3>
               <a href="/profile/{{ title[2] }}"> {{ title[4] }}</a> >> {{ title[3].strftime("%Y-%m-%d %H:%M:%S") }}
             </th>

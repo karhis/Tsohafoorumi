@@ -1,6 +1,9 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
 {% block content %}
+{% if locked == 1 %} 
+  <i class="gg-lock"></i>
+{% endif %}
 <h1>{{ title }}</h1>
 {% if session["mod"] %}
 <form action="/delete" method="POST">
@@ -12,6 +15,27 @@
     </fieldset>
   </fieldset>
 </form>
+{% if locked == 1 %}
+<form action="/lock" method="POST">
+  <fieldset>
+    <fieldset class="form-group">
+    <input type="hidden" name="lock_id" value="{{ id }}">
+    <input type="hidden" name="lock_type" value="0">
+    <button type="submit" class="btn btn-success">Avaa lanka</button>
+    </fieldset>
+  </fieldset>
+</form>
+{% else %}
+<form action="/lock" method="POST">
+  <fieldset>
+    <fieldset class="form-group">
+    <input type="hidden" name="lock_id" value="{{ id }}">
+    <input type="hidden" name="lock_type" value="1">
+    <button type="submit" class="btn btn-warning">Lukitse lanka</button>
+    </fieldset>
+  </fieldset>
+</form>
+{% endif %}
 {% endif %}
 <br>
 {% if session.username %}
@@ -62,12 +86,24 @@
 {% if session.username %}
 Vastaa lankaan
 </p>
+{% if locked == 1 %}
+  <fieldset disabled>
+    <form action="/reply" method="POST">
+      Viesti: 
+      <input type="text" name="message">
+      <input type="hidden" name="reply_type" value="0">
+      <input type="hidden" name="thread_id" value="{{ id }}">
+      <input type="submit" value="Lanka on lukittu">
+      </form>
+  </fieldset>
+{% else %}
 <form action="/reply" method="POST">
-Viesti: 
-<input type="text" name="message">
-<input type="hidden" name="reply_type" value="0">
-<input type="hidden" name="thread_id" value="{{ id }}">
-<input type="submit" value="Lähetä">
-</form>
+  Viesti: 
+  <input type="text" name="message">
+  <input type="hidden" name="reply_type" value="0">
+  <input type="hidden" name="thread_id" value="{{ id }}">
+  <input type="submit" value="Lähetä">
+  </form>
+{% endif %}
 {% endif %}
 {% endblock %}
