@@ -1,8 +1,13 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
 {% block content %}
-<h1>{{ username }} </h1>
+<h1>{{ profile[0] }} </h1>
 <br>
+{% if profile[1] %}
+<div class="alert alert-danger" role="alert">
+  Käyttäjä {{ profile[0] }} on saanut porttikiellon.
+</div>
+{% endif %}
 {% for dm in dms %}
 <br>
 {% if dm[3] == id|int() %} 
@@ -11,6 +16,8 @@
 Minä: {{ dm[1] }}
 {% endif %}
 {% endfor %}
+{% if profile[1]==True or session["banned"]==True %}
+<fieldset disabled>
 <form action="/reply" method="POST">
     <p>Viesti:<br>
     <input type="text" name="message">
@@ -19,4 +26,15 @@ Minä: {{ dm[1] }}
     <input type="hidden" name="reply_type" value="1">
     <input type="submit" value="Lähetä viesti">
 </form>
+</fieldset>
+{% else %}
+<form action="/reply" method="POST">
+    <p>Viesti:<br>
+    <input type="text" name="message">
+    </p>
+    <input type="hidden" name="sent_to" value="{{ id }}">
+    <input type="hidden" name="reply_type" value="1">
+    <input type="submit" value="Lähetä viesti">
+</form>
+{% endif %}
 {% endblock %}

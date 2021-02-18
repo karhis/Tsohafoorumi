@@ -1,6 +1,11 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
 {% block content %}
+{% if session["banned"] %}
+<div class="alert alert-danger" role="alert">
+  Olet saanut porttikiellon!
+</div>
+{% else %}
 <form action="/create" method="POST">
 <p>Otsikko:<br>
 <input type="text" name="title"></p>
@@ -9,4 +14,5 @@
 <input type="text" name="message"></p>
 <input type="submit" value="Luo lanka">
 </form>
+{% endif %}
 {% endblock %}

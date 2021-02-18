@@ -4,7 +4,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 
 def login(username,password):
-    sql ="SELECT pass, id, admin FROM users WHERE name=:username AND visible=1"
+    sql ="SELECT pass, id, admin, banned FROM users WHERE name=:username AND visible=1"
     result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
     if user == None:
@@ -15,6 +15,10 @@ def login(username,password):
                 session["username"] = user[1]
                 session["mod"] = True
                 return True
+            if user[3]:
+                session["username"] = user[1]
+                session["banned"] = True
+                return True
             else:
                 session["username"] = user[1]
                 return True
@@ -23,6 +27,7 @@ def login(username,password):
 
 def logout():
     session["mod"] = False
+    session["banned"] = False
     del session["username"]
 
 def register(username,password):
@@ -51,3 +56,18 @@ def get_username(id):
     sql = "SELECT name FROM users WHERE visible=1 AND id=:id"
     result = db.session.execute(sql, {"id":id})
     return result.fetchone()[0]
+
+def ban_user(ban_id):
+    sql = "UPDATE users SET banned=True WHERE id=:id"
+    db.session.execute(sql, {"id":ban_id})
+    db.session.commit()
+
+def unban_user(ban_id):
+    sql = "UPDATE users SET banned=False WHERE id=:id"
+    db.session.execute(sql, {"id":ban_id})
+    db.session.commit()
+
+def get_profile(id):
+    sql = "SELECT name, banned FROM users WHERE visible=1 AND id=:id"
+    result = db.session.execute(sql, {"id":id})
+    return result.fetchone()

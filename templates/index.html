@@ -4,7 +4,6 @@
 <h2>Etusivu</h2>
 {% if session.username %}
 Tervetuloa sovellukseen!  
-
 <br>
 <a href="/logout">Kirjaudu ulos</a>
 {% else %}
@@ -34,7 +33,11 @@ Tervetuloa sovellukseen!
 </div>
 
 {% endif %}
-
+{% if session["banned"] %}
+<div class="alert alert-danger" role="alert">
+  Olet saanut porttikiellon!
+</div>
+{% endif %}
 <hr>
 
 {% if session["mod"] %}

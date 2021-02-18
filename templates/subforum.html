@@ -2,9 +2,15 @@
 {% block title %}Etusivu{% endblock %}
 {% block content %}
 <h2>Etusivu</h2>
+{% if session["banned"] %}
+<div class="alert alert-danger" role="alert">
+  Olet saanut porttikiellon!
+</div>
+{% endif %}
 {% if session.username %}
-Tervetuloa sovellukseen!  <a href="/forum/{{ subforum_id }}/new">Tee lanka</a>
-
+{% if session["banned"]==False %}
+Tervetuloa sovellukseen!  <a href="/forum/{{ forum_id }}/sub/{{ subforum_id }}/new">Tee lanka</a>
+{% endif %}
 <br>
 <a href="/logout">Kirjaudu ulos</a>
 {% else %}

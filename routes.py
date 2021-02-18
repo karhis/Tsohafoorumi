@@ -56,8 +56,8 @@ def newsubforum(forum_id):
     return render_template("newforum.html", forum_id=forum_id)
 
 
-@app.route("/forum/<subforum_id>/new")
-def new(subforum_id):
+@app.route("/forum/<forum_id>/sub/<subforum_id>/new")
+def new(forum_id,subforum_id):
     subforum_id = subforum_id
     return render_template("new.html", subforum_id=subforum_id)
 
@@ -127,10 +127,10 @@ def chat(id):
     session_username = session["username"]
     sent_dms = messages.get_sent_dms(id,session_username)
     gotten_dms = messages.get_gotten_dms(id,session_username)
-    username = users.get_username(id)
+    profile= users.get_profile(id)
     dms = sent_dms + gotten_dms
     dms.sort()
-    return render_template("chat.html", dms=dms, id=id, username=username)
+    return render_template("chat.html", dms=dms, id=id, profile=profile)
 
 @app.route("/reply", methods=["POST"])
 def reply():
@@ -149,8 +149,8 @@ def reply():
 @app.route("/profile/<id>")
 def profile(id):
     replys = messages.get_replys_titles(id)
-    username = users.get_username(id)
-    return render_template("profile.html", messages=replys, id=id, username=username)
+    profile = users.get_profile(id)
+    return render_template("profile.html", messages=replys, id=id, profile=profile)
 
 @app.route("/create", methods=["POST"])
 def send():
@@ -180,6 +180,17 @@ def lock():
         return redirect("/")
     else:
         threads.unlock_thread(lock_id)
+        return redirect("/")
+
+@app.route("/ban", methods=["POST"])
+def ban():
+    ban_id = request.form["ban_id"]
+    ban_type = request.form["ban_type"]
+    if ban_type == "1":
+        users.ban_user(ban_id)
+        return redirect("/")
+    else:
+        users.unban_user(ban_id)
         return redirect("/")
     
     
