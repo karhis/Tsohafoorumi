@@ -13,6 +13,8 @@ Sovelluksessa on seuraavat toiminnallisuudet:
 * Viestin, langan tai käyttäjän hakeminen
 * (ADMIN) Keskustelualueiden ja niiden alalautojen lisääminen
 * (ADMIN) Lankojen, viestien, keskustelualuiden ja alalautojen poisto
+* (ADMIN) Lankojen lukitseminen
+* (ADMIN) Käyttäjien bannaaminen
 
 Toistaiseksi en ole kiinnittänyt huomioita muuhun kuin toiminnallisuuteen, ideana on vaan ollut saada jokin toimimaan edes jotenkin.  
 Käytettävyyteen ei ole kiinnitetty huomiota, joten mitään error/success viestejä ei oikeastaan ole.  
@@ -21,7 +23,7 @@ TODO:
 * Tietokannan refaktorointi
 * ~~Rakenteen refaktorointi~~
 * __Ihan kaiken refaktorointi ja korjaus__
-* Admin toiminnallisuus (~~Poistot,~~ bannaus, ~~lanka lukkoon,~~ ~~keskustelualueet~~)
+* ~~Admin toiminnallisuus (Poistot, bannaus, lanka lukkoon, keskustelualueet)~~
 * ~~Keskustelualueet eri aiheille~~
 * Tietoturva
 * Ulkoasu
