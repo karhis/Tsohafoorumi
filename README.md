@@ -16,17 +16,17 @@ Sovelluksessa on seuraavat toiminnallisuudet:
 * (ADMIN) Lankojen lukitseminen
 * (ADMIN) Käyttäjien bannaaminen
 
-Toistaiseksi en ole kiinnittänyt huomioita muuhun kuin toiminnallisuuteen, ideana on vaan ollut saada jokin toimimaan edes jotenkin.  
+
 Käytettävyyteen ei ole kiinnitetty huomiota, joten mitään error/success viestejä ei oikeastaan ole.  
 
 TODO:
-* Tietokannan refaktorointi
-* ~~Rakenteen refaktorointi~~
 * __Ihan kaiken refaktorointi ja korjaus__
-* ~~Admin toiminnallisuus (Poistot, bannaus, lanka lukkoon, keskustelualueet)~~
-* ~~Keskustelualueet eri aiheille~~
 * Tietoturva
 * Ulkoasu
+* Käyttölilmoitukset, Onnistui/Epäonnistui jne.
+* Syötetyn tiedon tarkastaminen
+* Laskurit toimimaan
+* Yksi tykkäys per käyttäjä
 * _Käyttäjä voi poistaa/muokata lähettämiään viestejä_
 * _Lankojen lukukerrat ja muut tilastot?_
 * _Profiilikuvat?_

@@ -4,15 +4,17 @@
   
  body {
      background-color: #f5f5f5;
-     color: #47536b
- }
-
-
-.header {
-    background: dodgerblue
+     margin: auto;
 }
 
+.header {
+    background: #0C9BE3;
+}
 
+.container2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+}
   form.example input[type=text] {
     padding: 10px;
     font-size: 17px;
@@ -22,6 +24,49 @@
     background: #f1f1f1;
   }
   
+
+  table {
+    border: 5px solid #0C9BE3;
+    border-radius: 25px;
+    padding: 20px;
+    width: 200px;
+    height: 75px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+
+  td {
+    font-size: 17px;
+    height: 15px;
+    padding: 10px;
+    color: #4C5C76;
+    font-size: smaller;
+  }
+
+  thead th {
+    background-color: #0C9BE3;
+    font-size: 0.8em;
+    padding: 1px !important;
+    height: 15px;
+  }
+
+  #wrap {
+    padding: 0 20px;
+    min-width: 650px;
+  }
+
+  .jumbotron {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    background-color: #E1EBF5;
+    margin-bottom: 4px;
+    padding: 0 10px;
+  }
+
+
 
   form.example button {
     float: left;
@@ -59,7 +104,7 @@
     border-bottom: transparent;
     margin-top: -12px
 }
-.gg-lock::after {
+  .gg-lock::after {
     content: "";
     display: block;
     box-sizing: border-box;

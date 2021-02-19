@@ -24,6 +24,12 @@ def get_forum_name(forum_id):
     name = result.fetchone()[0]
     return name
 
+def get_subforum_name(subforum_id):
+    sql = "SELECT name FROM subforums WHERE visible=1 AND id=:subforum_id"
+    result = db.session.execute(sql, {"subforum_id":subforum_id})
+    name = result.fetchone()[0]
+    return name
+
 def new_forum(name):
     sql = "INSERT INTO forums (name) VALUES (:name)"
     result = db.session.execute(sql, {"name":name})

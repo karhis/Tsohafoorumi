@@ -1,39 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
 {% block content %}
-<h2>Etusivu</h2>
-{% if session.username %}
-Tervetuloa sovellukseen!  
-
-<br>
-<a href="/logout">Kirjaudu ulos</a>
-{% else %}
-Tervetuloa sovellukseen!
-<br>
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <form action="/login" method="POST">
-        <p>Käyttäjätunnus:<br>
-        <input type="text" name="username"</p>
-        <p>Salasana:<br>
-        <input type="password" name="password"</p>
-        <input type="submit" value="Kirjaudu sisään">
-        </form>
-    </div>
-    <div class="col">
-      <form action="/register" method="POST">
-        <p><b>REKISTERÖIDY</b><br>
-        <input type="text" name="name"</p>
-        <p>Salasana:<br>
-        <input type="password" name="pass"</p>
-        <input type="submit" value="Rekisteröidy">
-        </form>
-    </div>
-  </div>
-</div>
-
-{% endif %}
 {% if session["mod"] %}
   <hr>
   <a href="/forum/{{ forum_id }}/newforum">Luo alalauta</a>
@@ -47,19 +14,14 @@ Tervetuloa sovellukseen!
     </fieldset>
   </form>
 {% endif %}
-<hr>
-<a href="/userlist">Lista käyttäjistä</a>
-
-<hr>
-<b>
     <h3><a href="/forum/{{ forum_id }}"> {{ forumname }} </h3></a>
     <table class="table table-hover">
         <thead>
           <tr>
-            <th scope="col"><h3>Aihealue</h3></th>
-            <th scope="col">Keskustelut</th>
-            <th scope="col">Viestit</th>
-            <th scope="col">Viimeisin viesti</th>
+            <th style="color:white;" scope="col">Alalauta</th>
+            <th style="color:white;" scope="col">Keskustelut</th>
+            <th style="color:white;" scope="col">Viestit</th>
+            <th style="color:white;" scope="col">Viimeisin viesti</th>
           </tr>
         </thead>
         <tbody>
@@ -76,8 +38,5 @@ Tervetuloa sovellukseen!
           </tr>
         </tbody>
     </table>
-</b>
-<h3>Tilastoja</h3>
-<p>Lankojen määrä: {{ amount }}</p>
 {% endblock %}
 

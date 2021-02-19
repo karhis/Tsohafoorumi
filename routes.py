@@ -29,8 +29,9 @@ def subforum(forum_id,subforum_id):
     all_thanks = thanks.get_all_thanks()
     amount = threads.get_thread_count()
     subforum_id = subforum_id
+    subforum_name = forums.get_subforum_name(subforum_id)
     forum_id = forum_id
-    return render_template("subforum.html", titles=titles, amount=amount, thanks=all_thanks, subforum_id=subforum_id, forum_id=forum_id)
+    return render_template("subforum.html", titles=titles, amount=amount, thanks=all_thanks, subforum_id=subforum_id, forum_id=forum_id, subforum_name=subforum_name)
 
 @app.route("/createforum", methods=["POST"])
 def createforum():

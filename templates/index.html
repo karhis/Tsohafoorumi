@@ -1,62 +1,20 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
 {% block content %}
-<h2>Etusivu</h2>
-{% if session.username %}
-Tervetuloa sovellukseen!  
-<br>
-<a href="/logout">Kirjaudu ulos</a>
-{% else %}
-Tervetuloa sovellukseen!
-<br>
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <form action="/login" method="POST">
-        <p>Käyttäjätunnus:<br>
-        <input type="text" name="username"</p>
-        <p>Salasana:<br>
-        <input type="password" name="password"</p>
-        <input type="submit" value="Kirjaudu sisään">
-        </form>
-    </div>
-    <div class="col">
-      <form action="/register" method="POST">
-        <p><b>REKISTERÖIDY</b><br>
-        <input type="text" name="name"</p>
-        <p>Salasana:<br>
-        <input type="password" name="pass"</p>
-        <input type="submit" value="Rekisteröidy">
-        </form>
-    </div>
-  </div>
-</div>
-
-{% endif %}
-{% if session["banned"] %}
-<div class="alert alert-danger" role="alert">
-  Olet saanut porttikiellon!
-</div>
-{% endif %}
 <hr>
-
 {% if session["mod"] %}
   <a href="/newforum">Luo keskustelualue</a>
 {% endif %}
 
-<hr>
-<a href="/userlist">Lista käyttäjistä</a>
-
-<hr>
 <b>
   {% for forum in forumlist %}
     <table class="table table-hover">
         <thead>
           <tr>
-            <th scope="col"><h3><a href="/forum/{{ forum[0] }}">{{ forum[1] }}</a></h3></th>
-            <th scope="col">Keskustelut</th>
-            <th scope="col">Viestit</th>
-            <th scope="col">Viimeisin viesti</th>
+            <th scope="col"><a href="/forum/{{ forum[0] }}" style="color:white;">{{ forum[1] }}</a></th>
+            <th scope="col" style="color:white;">Keskustelut</th>
+            <th scope="col" style="color:white;">Viestit</th>
+            <th scope="col" style="color:white;">Viimeisin viesti</th>
           </tr>
         </thead>
         <tbody>
