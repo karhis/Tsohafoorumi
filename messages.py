@@ -43,3 +43,8 @@ def get_replys(thread_id):
     sql = "SELECT M.id, M.content, M.created_by, M.date, U.name FROM messages M, users U WHERE thread_id=:id AND M.visible=1 AND M.created_by=U.id"
     result = db.session.execute(sql, {"id":thread_id})
     return result.fetchall()
+
+def get_latest_reply(subforum_id):
+    sql = "SELECT M.date, U.name, T.id FROM messages M LEFT OUTER JOIN threads T ON T.subforum_id=11 LEFT OUTER JOIN users U ON U.id=M.created_by WHERE M.visible=1 GROUP BY M.date, U.name, T.id"
+    result = db.session.execute(sql, {"subforum_id":subforum_id})
+    return result.fetchall()

@@ -25,8 +25,8 @@
         <thead>
           <tr>
             <th scope="col" style="color:white;">Otsikko </a></th>
-            <th scope="col" style="color:white;">Vastaukset</th>
             <th scope="col" style="color:white;">Tykkäykset</th>
+            <th scope="col" style="color:white;">Viestit</th>
             <th scope="col" style="color:white;">Viimeisin viesti</th>
           </tr>
         </thead>
@@ -34,23 +34,23 @@
             {% for title in titles %}
           <tr class="table-primary">
             <th scope="row">
-              {% if title[5] == 1 %}
+              {% if title[4] == 1 %}
                 <i class="gg-lock"></i>
               {% endif %}
               <h5><a href="/thread/{{ title[0] }}"> {{ title[1] }}</a></h5>
-              <a href="/profile/{{ title[2] }}"> {{ title[4] }}</a> > {{ title[3].strftime("%Y-%m-%d %H:%M:%S") }}
+              <a href="/profile/{{ title[2] }}"> {{ title[5] }}</a> > {{ title[3].strftime("%Y-%m-%d %H:%M:%S") }}
             </th>
-            <td>{{ title[5] }}</td>
-            {% set th = namespace(likes=0) %}
-            {% for thank in thanks %}
-            {% if thank[0] == title[0]: %}
-              {% set th.likes = thank[2] %}
+            <td>{{ title[7] }}</td>
+            <td>{{ title[6] }}</td>
+            {% set time = title[3].strftime("%Y-%m-%d %H:%M:%S") %}
+            {% for reply in latest_reply %}
+            {% if title[0] == reply[2] %}
+            {% set time = reply[0].strftime("%Y-%m-%d %H:%M:%S") %}
             {% endif %}
             {% endfor %}
-            <td>{{ th.likes }}</td>
-            <td>{{ title[3].strftime("%Y-%m-%d %H:%M:%S") }}</td>
+            <td>{{ time }}</td>
           </tr>
-          {% endfor %}
+            {% endfor %}
         </tbody>
     </table>
 {% endblock %}

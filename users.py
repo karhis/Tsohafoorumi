@@ -68,6 +68,6 @@ def unban_user(ban_id):
     db.session.commit()
 
 def get_profile(id):
-    sql = "SELECT name, banned FROM users WHERE visible=1 AND id=:id"
+    sql = "SELECT name, banned, id FROM users WHERE visible=1 AND id=:id"
     result = db.session.execute(sql, {"id":id})
     return result.fetchone()

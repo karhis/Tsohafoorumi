@@ -29,14 +29,28 @@
 {% endif %}
 Lähetetyt viestit:
 <br>
-{% for message in messages %}
-<div class="card text-white bg-primary mb-3" style="max-width: 40rem;">
-    <div class="card-header">Lähetetty : {{ message[3].strftime("%Y-%m-%d %H:%M:%S") }}</div>
-    <div class="card-body">
-      <h4 class="card-title"><a class="text-warning" href="/thread/{{ message[2] }}"> {{ message[4] }} </a></h4>
-      <p class="card-text">{{ message[1] }}</p>
+{% for reply in messages %}
+<div class="jumbotron">
+  <div class="row">
+    <div class="col-md-1 offset-md-1 mx-1 my-1">
+    <p>{{ reply[4] }}</p>
+    </div>
+    <div class="col-sm-9 text-md-left ml-3 mt-3">
+      <h3>{{ reply[1] }}</h3>
+      <br>
+      {% set ms = namespace(likes=0) %}
+      {% for thank in thanks %}
+      {% if thank[1] == reply[0]: %}
+        {% set ms.likes = thank[2] %}
+      {% endif %}
+      {% endfor %}
+      <small>{{ reply[3].strftime("%Y-%m-%d %H:%M:%S") }}</small>
+      <br>
+      <small>Tykkäykset : {{ ms.likes }}</small>
+      <br>
     </div>
   </div>
+</div>
   <br>
 {% endfor %}
 {% endblock %}

@@ -9,11 +9,23 @@
 </div>
 {% endif %}
 {% for dm in dms %}
-{% if dm[3] == id|int() %} 
-{{ username }}: {{ dm[1] }}
-{% else %}
-Minä: {{ dm[1] }}
-{% endif %}
+<div class="jumbotron">
+  <div class="row">
+    <div class="col-md-1 offset-md-1 mx-1 my-1">
+      {% if dm[3] == profile[2] %}
+        <p>{{ profile[0] }}</p>
+        {% else %}
+        <p>Sinä</p>
+      {% endif %}
+    </div>
+    <div class="col-sm-9 text-md-left ml-3 mt-3">
+      <h3>{{ dm[1] }}</h3>
+      <br>
+      <small>{{ dm[5].strftime("%Y-%m-%d %H:%M:%S") }}</small>
+      <br>
+    </div>
+  </div>
+</div>
 {% endfor %}
 {% if profile[1]==True or session["banned"]==True %}
 <fieldset disabled>

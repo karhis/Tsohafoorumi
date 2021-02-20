@@ -2,7 +2,7 @@ from db import db
 
 
 def get_thread_info(subforum_id):
-    sql = "SELECT T.id, T.title, T.created_by, T.date, U.name, T.locked FROM threads T, users U WHERE T.visible=1 AND T.created_by=U.id AND subforum_id=:subforum_id ORDER BY date DESC"
+    sql = "SELECT T.id, T.title, T.created_by, T.date, T.locked, U.name, COUNT(DISTINCT M.id), COUNT(DISTINCT L.id) AS THANKCOUNT FROM threads T LEFT OUTER JOIN messages M ON T.id = M.thread_id AND M.visible=1 LEFT OUTER JOIN users U ON U.id = T.created_by LEFT OUTER JOIN thanks L ON T.id = L.thread_id AND L.visible = 1 WHERE T.visible=1 AND T.subforum_id=:subforum_id GROUP BY T.id, U.name"
     result = db.session.execute(sql, {"subforum_id":subforum_id})
     titles = result.fetchall()
     return titles

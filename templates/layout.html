@@ -19,6 +19,7 @@
     </form>
 </nav>
 <br>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #CADCEA;">
   <div class="collapse navbar-collapse" id="navbarColor02">
     <ul class="navbar-nav mr-auto">
@@ -38,6 +39,7 @@
     </ul>
   </div>
 </nav>
+
 {% if not session.username %}
 <br>
 <div class="container">
@@ -68,5 +70,7 @@
   Olet saanut porttikiellon!
 </div>
 {% endif %}
+
 {% block content %}{% endblock %}
+<a class="nav-link" href="/logout">Kirjaudu ulos</a>
 </div>

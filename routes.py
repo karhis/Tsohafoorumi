@@ -11,27 +11,25 @@ from flask import request, redirect, render_template, session
 def index():
     forumlist = forums.get_all_forums()
     subforumlist = forums.get_all_subforums()
-    amount = threads.get_thread_count()
-    return render_template("index.html", amount=amount, forumlist=forumlist, subforumlist=subforumlist)
+    total_thread_amount = threads.get_thread_count()
+    return render_template("index.html", total_thread_amount=total_thread_amount, forumlist=forumlist, subforumlist=subforumlist)
 
 
 @app.route("/forum/<forum_id>")
 def forum(forum_id):
     subforumlist = forums.get_subforums(forum_id)
     forumname = forums.get_forum_name(forum_id)
-    amount = threads.get_thread_count()
     forum_id = forum_id
-    return render_template("forum.html", amount=amount, subforumlist=subforumlist, forum_id=forum_id, forumname=forumname)
+    return render_template("forum.html", subforumlist=subforumlist, forum_id=forum_id, forumname=forumname)
 
 @app.route("/forum/<forum_id>/sub/<subforum_id>")
 def subforum(forum_id,subforum_id):
     titles = threads.get_thread_info(subforum_id)
-    all_thanks = thanks.get_all_thanks()
-    amount = threads.get_thread_count()
     subforum_id = subforum_id
+    latest_reply = messages.get_latest_reply(subforum_id)
     subforum_name = forums.get_subforum_name(subforum_id)
     forum_id = forum_id
-    return render_template("subforum.html", titles=titles, amount=amount, thanks=all_thanks, subforum_id=subforum_id, forum_id=forum_id, subforum_name=subforum_name)
+    return render_template("subforum.html", titles=titles, subforum_id=subforum_id, forum_id=forum_id, subforum_name=subforum_name, latest_reply=latest_reply)
 
 @app.route("/createforum", methods=["POST"])
 def createforum():
