@@ -5,28 +5,32 @@
 <link href="https://css.gg/css?=|lock" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
-
 <title>Tsohafoorumi - {% block title %}{% endblock %}</title>
 <div id="wrap">
-
-
 <nav class="navbar navbar-lightjustify-content-between" style="background-color: #0C9bE3">
-    <a class="navbar-brand"><a href="/" class="text-white">Tsohafoorumi</a></a>
-    <form class="form-inline" action="/result" method="GET">
-      <input class="form-control mr-sm-2" type="search" placeholder="Etsi..." name="query">
-      <button type="submit"><i class="fa fa-search"></i></button>
-    </form>
+  <a class="navbar-brand"><a href="/" class="text-white">Tsohafoorumi</a></a>
+  <form class="form-inline" action="/result" method="GET">
+    <input class="form-control mr-sm-2" type="search" placeholder="Etsi..." name="query">
+    <button type="submit"><i class="fa fa-search"></i></button>
+  </form>
 </nav>
 <br>
-
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <div class="alert alert- alert-success">
+        <strong>{{ message }}</strong> 
+      </div>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #CADCEA;">
   <div class="collapse navbar-collapse" id="navbarColor02">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="/">Etusivu
-          <span class="sr-only">(current)</span>
-        </a>
+        <a class="nav-link" href="/">Etusivu<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/userlist">Lista käyttäjistä</a>
@@ -39,38 +43,38 @@
     </ul>
   </div>
 </nav>
-
 {% if not session.username %}
-<br>
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <form action="/login" method="POST">
-        <p>Käyttäjätunnus:<br>
-        <input type="text" name="username"</p>
-        <p>Salasana:<br>
-        <input type="password" name="password"</p>
-        <input type="submit" value="Kirjaudu sisään">
+  <br>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <form action="/login" method="POST">
+          <p>Käyttäjätunnus:<br>
+          <input type="text" name="username"</p>
+          <p>Salasana:<br>
+          <input type="password" name="password"</p>
+          <input type="submit" value="Kirjaudu sisään">
         </form>
-    </div>
-    <div class="col">
-      <form action="/register" method="POST">
-        <p><b>REKISTERÖIDY</b><br>
-        <input type="text" name="name"</p>
-        <p>Salasana:<br>
-        <input type="password" name="pass"</p>
-        <input type="submit" value="Rekisteröidy">
+      </div>
+      <div class="col">
+        <form action="/register" method="POST">
+          <p><b>REKISTERÖIDY</b><br>
+          <input type="text" name="name"</p>
+          <p>Salasana:<br>
+          <input type="password" name="pass"</p>
+          <input type="submit" value="Rekisteröidy">
         </form>
+      </div>
     </div>
   </div>
-</div>
 {% endif %}
 {% if session["banned"] %}
-<div class="alert alert-danger" role="alert">
-  Olet saanut porttikiellon!
-</div>
+  <div class="alert alert-danger" role="alert">
+    Olet saanut porttikiellon!
+  </div>
 {% endif %}
-
 {% block content %}{% endblock %}
-<a class="nav-link" href="/logout">Kirjaudu ulos</a>
+{% if session["username"] %}
+  <a class="nav-link" href="/logout">Kirjaudu ulos</a>
+{% endif %}
 </div>

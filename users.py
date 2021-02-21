@@ -2,7 +2,6 @@ from db import db
 from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-
 def login(username,password):
     sql ="SELECT pass, id, admin, banned FROM users WHERE name=:username AND visible=1"
     result = db.session.execute(sql, {"username":username})
@@ -51,11 +50,6 @@ def get_user_query(query):
     result = db.session.execute(sql, {"query":"%"+query+"%"})
     users = result.fetchall()
     return users
-
-def get_username(id):
-    sql = "SELECT name FROM users WHERE visible=1 AND id=:id"
-    result = db.session.execute(sql, {"id":id})
-    return result.fetchone()[0]
 
 def ban_user(ban_id):
     sql = "UPDATE users SET banned=True WHERE id=:id"

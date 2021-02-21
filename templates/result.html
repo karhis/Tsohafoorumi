@@ -1,51 +1,52 @@
 {% extends "layout.html" %}
-{% block title %}Etusivu{% endblock %}
+{% block title %}Haku{% endblock %}
 {% block content %}
 <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Viestit:</th>
-      </tr>
-    </thead>
-    {% for message in messages %}
+  <thead>
+    <tr>
+      <th scope="col">Lähettäjä:</th>
+      <th scope="col">Viesti:</th>
+    </tr>
+  </thead>
+  {% for message in messages %}
     <tbody>
       <tr class="table-info">
-        <th scope="row"><a href="/thread/{{ message[2] }}"> {{ message[0] }} </a></th>
-        <td>{{ message[1] }}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-<table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Käyttäjät:</th>
+        <th scope="row"><a href="/profile/{{ message[4] }}"> {{ message[3] }} </a></th>
+        <td><a href="/thread/{{ message[2] }}"> {{ message[1] }} </a></td>
       </tr>
-    </thead>
-    {% for user in users %}
+  {% endfor %}
+  </tbody>
+</table>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Käyttäjät:</th>
+    </tr>
+  </thead>
+  {% for user in users %}
     <tbody>
       <tr class="table-info">
         <th scope="row"><a href="/profile/{{ user[0] }}"> {{ user[1] }}</a></th>
       </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Lanka:</th>
-        <th scope="col">Aloittaja:</th>
-        <th scope="col">Luotu:</th>
-      </tr>
-    </thead>
-    {% for thread in threads %}
+  {% endfor %}
+  </tbody>
+</table>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Lanka:</th>
+      <th scope="col">Aloittaja:</th>
+      <th scope="col">Luotu:</th>
+    </tr>
+  </thead>
+  {% for thread in threads %}
     <tbody>
       <tr class="table-info">
         <th scope="row"><a href="/thread/{{ thread[0] }}"> {{ thread[1] }}</a></th>
         <td>{{ thread[4] }}</td>
         <td>{{ thread[3] }}</td>
       </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+  {% endfor %}
+  </tbody>
+</table>
 {% endblock %}

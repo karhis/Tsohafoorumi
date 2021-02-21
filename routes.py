@@ -4,8 +4,7 @@ import threads
 import messages
 import users
 import forums
-from flask import request, redirect, render_template, session
-
+from flask import request, redirect, render_template, session, flash
 
 @app.route("/")
 def index():
@@ -13,7 +12,6 @@ def index():
     subforumlist = forums.get_all_subforums()
     total_thread_amount = threads.get_thread_count()
     return render_template("index.html", total_thread_amount=total_thread_amount, forumlist=forumlist, subforumlist=subforumlist)
-
 
 @app.route("/forum/<forum_id>")
 def forum(forum_id):
@@ -48,23 +46,23 @@ def createforum():
 def newforum():
     return render_template("newforum.html")
 
-
 @app.route("/forum/<forum_id>/newforum")
 def newsubforum(forum_id):
     forum_id = forum_id
     return render_template("newforum.html", forum_id=forum_id)
 
-
 @app.route("/forum/<forum_id>/sub/<subforum_id>/new")
 def new(forum_id,subforum_id):
     subforum_id = subforum_id
-    return render_template("new.html", subforum_id=subforum_id)
+    forum_id = forum_id;
+    return render_template("new.html", subforum_id=subforum_id, forum_id=forum_id)
 
 @app.route("/login", methods=["POST"])
 def login():
     username = request.form["username"]
     password = request.form["password"]
     if users.login(username,password):
+        flash('Sisäänkirjautuminen onnistui!')
         return redirect("/")
     else:
         return render_template("error.html",error_message="Sisäänkirjautuminen epäonnistui, väärä käyttäjätunnus tai salasana.")
@@ -72,6 +70,7 @@ def login():
 @app.route("/logout")
 def logout():
     users.logout()
+    flash('Olet kirjautunut ulos')
     return redirect("/")
 
 @app.route("/register", methods=["POST"])
@@ -79,6 +78,7 @@ def register():
     password = request.form["pass"]
     username = request.form["name"]
     if users.register(username,password):
+        flash('Rekisteröityminen onnistui!')
         return redirect("/")
     else:
         return render_template("error.html",error_message="Rekisteröityminen epäonnistui.")
@@ -99,10 +99,15 @@ def result():
 @app.route("/thank", methods=["POST"])
 def thank():
     username = session["username"]
-    message_id = request.form["message_id"]
-    thread_id = request.form["thread_id"]
-    thanks.thank(thread_id,message_id,username)
-    return redirect("/")
+    thank_type = request.form["thank_type"]
+    if thank_type == "1":           #1 for messages, 0 for threads
+        message_id = request.form["message_id"]
+        thanks.thank_message(message_id,username)
+        return redirect(request.referrer)
+    else:
+        thread_id = request.form["thread_id"]
+        thanks.thank_thread(thread_id,username)
+        return redirect(request.referrer)
 
 @app.route("/delete", methods=["POST"])
 def delete():   
@@ -143,6 +148,7 @@ def reply():
     else:
         thread_id = request.form["thread_id"]
         messages.send_reply(message, thread_id, username)
+        flash('Viesti lähetetty!')
         return redirect("/thread/"+str(thread_id))
 
 @app.route("/profile/<id>")
@@ -156,11 +162,12 @@ def send():
     title = request.form["title"]
     username = session["username"]
     subforum_id = request.form["subforum_id"]
+    forum_id = request.form["forum_id"]
     thread_id = threads.new(title, username, subforum_id)
     message = request.form["message"]
     messages.send_reply(message, thread_id, username)
-    return redirect("/")
-
+    flash('Keskustelu luotu!')
+    return redirect("/forum/"+str(forum_id)+"/sub/"+str(subforum_id))
 
 @app.route("/thread/<id>")
 def thread(id):

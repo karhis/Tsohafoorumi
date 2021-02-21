@@ -30,6 +30,8 @@ CREATE TABLE thanks (
     thread_id INTEGER,
     message_id INTEGER,
     created_by INTEGER,
+    UNIQUE (thread_id, created_by),
+    UNIQUE (message_id, created_by),
     visible INTEGER DEFAULT 1
 );
 CREATE TABLE forums (

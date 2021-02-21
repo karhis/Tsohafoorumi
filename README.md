@@ -23,7 +23,6 @@ TODO:
 * __Ihan kaiken refaktorointi ja korjaus__
 * Tietoturva
 * Ulkoasu
-* Käyttölilmoitukset, Onnistui/Epäonnistui jne.
 * Syötetyn tiedon tarkastaminen
 * Laskurit toimimaan
 * Yksi tykkäys per käyttäjä

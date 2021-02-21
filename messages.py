@@ -1,8 +1,7 @@
 from db import db
 
-
 def get_message_query(query):
-    sql = "SELECT id, content, thread_id FROM messages WHERE visible=1 AND sent_to IS NULL AND content LIKE :query"
+    sql = "SELECT M.id, M.content, M.thread_id, U.name, U.id FROM messages M, users U WHERE M.visible=1 AND M.sent_to IS NULL AND U.id=M.created_by AND content LIKE :query"
     result = db.session.execute(sql, {"query":"%"+query+"%"})
     messages = result.fetchall()
     return messages

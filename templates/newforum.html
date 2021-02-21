@@ -1,19 +1,19 @@
 {% extends "layout.html" %}
-{% block title %}Etusivu{% endblock %}
+{% block title %}{% endblock %}
 {% block content %}
 <form action="/createforum" method="POST">
-<p>Nimi:<br>
-<input type="text" name="forumname"></p>
-{% if forum_id|length %}
-    <input type="hidden" name="forum_id" value="{{ forum_id }}">
-    <input type="hidden" name="forum_type" value="1">
-    <p>Kuvaus:<br>
-    <input type="text" name="descri">
-    </p>
-    <input type="submit" value="Luo alalauta">
-{% else %}
-    <input type="hidden" name="forum_type" value="0">
-    <input type="submit" value="Luo keskustelualue">
-{% endif %}
+    <p>Nimi:<br>
+    <input type="text" name="forumname"></p>
+    {% if forum_id|length %}
+        <input type="hidden" name="forum_id" value="{{ forum_id }}">
+        <input type="hidden" name="forum_type" value="1">
+        <p>Kuvaus:<br>
+        <input type="text" name="descri">
+        </p>
+        <input type="submit" value="Luo alalauta">
+    {% else %}
+        <input type="hidden" name="forum_type" value="0">
+        <input type="submit" value="Luo keskustelualue">
+    {% endif %}
 </form>
 {% endblock %}

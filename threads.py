@@ -1,12 +1,10 @@
 from db import db
 
-
 def get_thread_info(subforum_id):
     sql = "SELECT T.id, T.title, T.created_by, T.date, T.locked, U.name, COUNT(DISTINCT M.id), COUNT(DISTINCT L.id) AS THANKCOUNT FROM threads T LEFT OUTER JOIN messages M ON T.id = M.thread_id AND M.visible=1 LEFT OUTER JOIN users U ON U.id = T.created_by LEFT OUTER JOIN thanks L ON T.id = L.thread_id AND L.visible = 1 WHERE T.visible=1 AND T.subforum_id=:subforum_id GROUP BY T.id, U.name"
     result = db.session.execute(sql, {"subforum_id":subforum_id})
     titles = result.fetchall()
     return titles
-
 
 def get_thread_count():
     sql = "SELECT COUNT(*) FROM threads WHERE visible=1"
@@ -33,7 +31,7 @@ def new(title, username, subforum_id):
     return result.fetchone()[0]
 
 def get_title(thread_id):
-    sql = "SELECT title FROM threads WHERE id=:id AND visible=1"
+    sql = "SELECT T.title FROM threads T WHERE AND T.id=:id AND T.visible=1 GROUP BY T.title"
     result = db.session.execute(sql, {"id":thread_id})
     title = result.fetchone()[0]
     return title
