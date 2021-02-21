@@ -2,9 +2,11 @@
 
 https://tsohafoorumi2020.herokuapp.com/
 
-Harjoitustyön aiheena on keskustelupalstasovellus, phpbb tyyliin, muutamilla lisäyksillä.
+Harjoitustyön aiheena on keskustelupalstasovellus, mukaillen phpbbn tyyliä.
 
 Sovelluksessa on kaksi valmista käyttäjää admin:admin ja user:user, voit tehdä myös uuden käyttäjän. Yksityisviestit löytää: Lista käyttäjistä -> *käyttäjä* -> Chat.
+
+Toivoisin erityisesti palautetta sovelluksen ja tietokannan rakenteesta.
 
 Sovelluksessa on seuraavat toiminnallisuudet:
 * Lankojen teko
@@ -16,17 +18,16 @@ Sovelluksessa on seuraavat toiminnallisuudet:
 * (ADMIN) Lankojen lukitseminen
 * (ADMIN) Käyttäjien bannaaminen
 
-
-Käytettävyyteen ei ole kiinnitetty huomiota, joten mitään error/success viestejä ei oikeastaan ole.  
-
-TODO:
-* __Ihan kaiken refaktorointi ja korjaus__
+TODO/Known issues:
+* __Yleinen siistiminen, refaktorointi ja rakenteen korjaus__
 * Tietoturva
 * Ulkoasu
 * Syötetyn tiedon tarkastaminen
-* Laskurit toimimaan
-* Yksi tykkäys per käyttäjä
-* _Käyttäjä voi poistaa/muokata lähettämiään viestejä_
+* Tykkäyksen peruminen
+* Breadcrumb linkit
+* Viimeisin viesti toimimaan
+* Navbar ei piiloudu ikkunan kokoa muokatessa
+* _Käyttäjä voi poistaa/muokata lähettämiään viestejä?_
 * _Lankojen lukukerrat ja muut tilastot?_
 * _Profiilikuvat?_
 * _Käyttäjien "foorumisignature"?_
