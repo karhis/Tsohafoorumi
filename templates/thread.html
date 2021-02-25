@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
-{% if locked == 1 %} 
+{% if locked %} 
   <i class="gg-lock"></i>
 {% endif %}
 {% if session["mod"] %}
@@ -12,7 +12,7 @@
     <button type="submit" class="btn btn-danger">POISTA LANKA</button>
     </fieldset>
   </form>
-  {% if locked == 1 %}
+  {% if locked %}
     <form action="/lock" method="POST">
       <fieldset class="form-group">
         <input type="hidden" name="lock_id" value="{{ id }}">
@@ -83,7 +83,7 @@
 {% if session.username and session["banned"]==False %}
   Vastaa lankaan
   </p>
-  {% if locked == 1 %}
+  {% if locked %}
     <fieldset disabled>
       <form action="/reply" method="POST">
         Viesti: 

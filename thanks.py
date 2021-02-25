@@ -1,7 +1,7 @@
 from db import db
 
 def get_all_thanks():
-    sql = "SELECT thread_id, message_id, COUNT(*) FROM thanks WHERE visible=1 GROUP BY thread_id, message_id"
+    sql = "SELECT thread_id, message_id, COUNT(*) FROM thanks WHERE visible GROUP BY thread_id, message_id"
     result = db.session.execute(sql)
     thanks = result.fetchall()
     return thanks

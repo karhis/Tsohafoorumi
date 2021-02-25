@@ -1,13 +1,13 @@
 from db import db
 
 def get_message_query(query):
-    sql = "SELECT M.id, M.content, M.thread_id, U.name, U.id FROM messages M, users U WHERE M.visible=1 AND M.sent_to IS NULL AND U.id=M.created_by AND content LIKE :query"
+    sql = "SELECT M.id, M.content, M.thread_id, U.name, U.id FROM messages M, users U WHERE M.visible AND M.sent_to IS NULL AND U.id=M.created_by AND content LIKE :query"
     result = db.session.execute(sql, {"query":"%"+query+"%"})
     messages = result.fetchall()
     return messages
 
 def delete_message(message_id):
-    sql = "UPDATE messages SET visible=0 WHERE id=:id"
+    sql = "UPDATE messages SET visible=False WHERE id=:id"
     db.session.execute(sql, {"id":message_id})
     db.session.commit()
 
@@ -34,16 +34,16 @@ def send_reply(message, thread_id, id):
     db.session.commit()
 
 def get_replys_titles(id):
-    sql = "SELECT M.id, M.content, M.thread_id, M.date, T.title FROM messages M, threads T WHERE M.visible=1 AND M.created_by=:id AND T.id=M.thread_id"
+    sql = "SELECT M.id, M.content, M.thread_id, M.date, T.title FROM messages M, threads T WHERE M.visible AND M.created_by=:id AND T.id=M.thread_id"
     result = db.session.execute(sql, {"id":id})
     return result.fetchall()
 
 def get_replys(thread_id):
-    sql = "SELECT M.id, M.content, M.created_by, M.date, U.name FROM messages M, users U WHERE thread_id=:id AND M.visible=1 AND M.created_by=U.id"
+    sql = "SELECT M.id, M.content, M.created_by, M.date, U.name FROM messages M, users U WHERE thread_id=:id AND M.visible AND M.created_by=U.id"
     result = db.session.execute(sql, {"id":thread_id})
     return result.fetchall()
 
 def get_latest_reply(subforum_id):
-    sql = "SELECT M.date, U.name, T.id FROM messages M LEFT OUTER JOIN threads T ON T.subforum_id=11 LEFT OUTER JOIN users U ON U.id=M.created_by WHERE M.visible=1 GROUP BY M.date, U.name, T.id"
+    sql = "SELECT M.date, U.name, T.id FROM messages M LEFT OUTER JOIN threads T ON T.subforum_id=:subforum_id LEFT OUTER JOIN users U ON U.id=M.created_by WHERE M.visible GROUP BY M.date, U.name, T.id"
     result = db.session.execute(sql, {"subforum_id":subforum_id})
     return result.fetchall()

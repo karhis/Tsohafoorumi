@@ -32,7 +32,7 @@
     {% for title in titles %}
       <tr class="table-primary">
         <th scope="row">
-          {% if title[4] == 1 %}
+          {% if title[4] %}
             <i class="gg-lock"></i>
           {% endif %}
           <h5><a href="/thread/{{ title[0] }}"> {{ title[1] }}</a></h5>

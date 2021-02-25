@@ -3,7 +3,7 @@ from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
 
 def login(username,password):
-    sql ="SELECT pass, id, admin, banned FROM users WHERE name=:username AND visible=1"
+    sql ="SELECT pass, id, admin, banned FROM users WHERE name=:username AND visible"
     result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
     if user == None:
@@ -40,13 +40,13 @@ def register(username,password):
         return False
 
 def get_userlist():
-    sql = "SELECT id, name, date FROM users WHERE visible=1 ORDER BY id DESC"
+    sql = "SELECT id, name, date FROM users WHERE visible ORDER BY id DESC"
     result = db.session.execute(sql)
     users = result.fetchall()
     return users
 
 def get_user_query(query):
-    sql = "SELECT id, name FROM users WHERE visible=1 AND name LIKE :query"
+    sql = "SELECT id, name FROM users WHERE visible AND name LIKE :query"
     result = db.session.execute(sql, {"query":"%"+query+"%"})
     users = result.fetchall()
     return users
@@ -62,6 +62,6 @@ def unban_user(ban_id):
     db.session.commit()
 
 def get_profile(id):
-    sql = "SELECT name, banned, id FROM users WHERE visible=1 AND id=:id"
+    sql = "SELECT name, banned, id FROM users WHERE visible AND id=:id"
     result = db.session.execute(sql, {"id":id})
     return result.fetchone()
