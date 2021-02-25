@@ -4,6 +4,7 @@ import threads
 import messages
 import users
 import forums
+from forms import RegistartionForm
 from flask import request, redirect, render_template, session, flash
 
 @app.route("/")
@@ -73,15 +74,21 @@ def logout():
     flash('Olet kirjautunut ulos')
     return redirect("/")
 
+
+@app.route("/register")
+def register_form():
+        form = RegistartionForm()
+        return render_template("register.html", form=form)
+
 @app.route("/register", methods=["POST"])
 def register():
-    password = request.form["pass"]
-    username = request.form["name"]
-    if users.register(username,password):
-        flash('Rekisteröityminen onnistui!')
-        return redirect("/")
+    form = RegistartionForm(request.form)
+    if form.validate():
+        if users.register(form.username.data,form.password.data):
+            flash('Rekisteröityminen onnistui!')
+            return redirect("/")
     else:
-        return render_template("error.html",error_message="Rekisteröityminen epäonnistui.")
+        return render_template("error.html", error_message="Rekisteröityminen epäonnistui.")
 
 @app.route("/userlist")
 def userlist():

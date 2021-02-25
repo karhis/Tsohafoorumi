@@ -57,17 +57,12 @@
         </form>
       </div>
       <div class="col">
-        <form action="/register" method="POST">
-          <p><b>REKISTERÖIDY</b><br>
-          <input type="text" name="name"</p>
-          <p>Salasana:<br>
-          <input type="password" name="pass"</p>
-          <input type="submit" value="Rekisteröidy">
-        </form>
+        <a class="nav link" href="/register">Rekisteröidy</a>
       </div>
     </div>
   </div>
 {% endif %}
+
 {% if session["banned"] %}
   <div class="alert alert-danger" role="alert">
     Olet saanut porttikiellon!
