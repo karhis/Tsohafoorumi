@@ -1,6 +1,12 @@
 {% extends "layout.html" %}
 {% block title %}{{ forumname }}{% endblock %}
 {% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Etusivu</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ forumname }}</li>
+  </ol>
+</nav>
 {% if session["mod"] %}
   <hr>
   <a href="/forum/{{ forum_id }}/newforum">Luo alalauta</a>

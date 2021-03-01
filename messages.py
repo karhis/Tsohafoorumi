@@ -39,8 +39,8 @@ def get_replys_titles(id):
     return result.fetchall()
 
 def get_replys(thread_id):
-    sql = "SELECT M.id, M.content, M.created_by, M.date, U.name FROM messages M, users U WHERE thread_id=:id AND M.visible AND M.created_by=U.id"
-    result = db.session.execute(sql, {"id":thread_id})
+    sql = "SELECT M.id, M.content, M.created_by, M.date, U.name, COUNT(DISTINCT T.id) FROM messages M LEFT OUTER JOIN thanks T ON M.id=T.message_id LEFT OUTER JOIN users U ON M.created_by=U.id WHERE M.thread_id=:thread_id AND M.visible GROUP BY M.id, U.name"
+    result = db.session.execute(sql, {"thread_id":thread_id})
     return result.fetchall()
 
 def get_latest_reply(subforum_id):

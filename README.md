@@ -22,10 +22,7 @@ TODO/Known issues:
 * __Yleinen siistiminen, refaktorointi ja rakenteen korjaus__
 * Tietoturva
 * Ulkoasu
-* Syötetyn tiedon tarkastaminen
-* Tykkäyksen peruminen
-* Breadcrumb linkit
-* Navbar ei piiloudu ikkunan kokoa muokatessa
+* _Tykkäyksen peruminen_
 * _Käyttäjä voi poistaa/muokata lähettämiään viestejä?_
 * _Lankojen lukukerrat ja muut tilastot?_
 * _Profiilikuvat?_

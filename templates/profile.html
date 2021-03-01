@@ -1,7 +1,15 @@
 {% extends "layout.html" %}
 {% block title %}{{ profile[0] }}{% endblock %}
 {% block content %}
-<h1>{{ profile[0] }}</h1>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Etusivu</a></li>
+  </ol>
+</nav>
+<h1>
+  {{ profile[0] }}
+</h1>
+
 {% if profile[1] %}
   <div class="alert alert-danger" role="alert">
     Käyttäjä {{ profile[0] }} on saanut porttikiellon.
@@ -24,11 +32,11 @@
     </form>
   {% endif %}
 {% endif %}
-{% if session.username  %}
-  <a href="/profile/{{id}}/chat">Chat</a>
+{% if session["username"] %}
+    <button type="button" class="btn btn-info"><a href="/profile/{{id}}/chat" style="color:white;">Chat</a></button>
 {% endif %}
-Lähetetyt viestit:
 <br>
+<b><p>Lähetetyt viestit:</p></b>
 {% for reply in messages %}
   <div class="jumbotron">
     <div class="row">

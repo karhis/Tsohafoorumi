@@ -1,6 +1,13 @@
 {% extends "layout.html" %}
 {% block title %}{{ subforum_name }}{% endblock %}
 {% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Etusivu</a></li>
+    <li class="breadcrumb-item"><a href="/forum/{{ forum_id }}">{{ forum_name }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ subforum_name }}</li>
+  </ol>
+</nav>
 {% if session["mod"] %}
   <hr>
   <form action="/delete" method="POST">
@@ -12,15 +19,9 @@
   </form>
 {% endif %}
 <h3><a href="/forum/{{ forum_id }}/sub/{{ subforum_id }}"> {{ subforum_name }} </h3></a>
-<div class="container2">
-  {% if session["username"] %}
-    <p><a href="/forum/{{ forum_id }}/sub/{{ subforum_id }}/new" class=btn btn-danger >Tee lanka</a></p>
-  {% endif %}
-  <p><form class="form-inline" action="/result" method="GET">
-      <input class="form-control mr-sm-2" type="search" placeholder="Etsi..." name="query">
-      <button type="submit"><i class="fa fa-search"></i></button>
-    </form></p>
-</div>
+{% if session["username"] %}
+  <button type="button" class="btn btn-info"><a href="/forum/{{ forum_id }}/sub/{{ subforum_id }}/new" style="color:white;">Tee lanka</a></button>
+{% endif %}
 <table class="table table-hover">
   <thead>
     <tr>
@@ -37,7 +38,7 @@
           {% if title[4] %}
             <i class="gg-lock"></i>
           {% endif %}
-          <h5><a href="/thread/{{ title[0] }}"> {{ title[1] }}</a></h5>
+          <h5><a href="/forum/{{ forum_id }}/sub/{{ subforum_id }}/thread/{{ title[0] }}"> {{ title[1] }}</a></h5>
           <a href="/profile/{{ title[2] }}"> {{ title[5] }}</a> > {{ title[3].strftime("%Y-%m-%d %H:%M:%S") }}
         </th>
         <td>{{ title[7] }}</td>

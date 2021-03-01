@@ -1,6 +1,11 @@
 {% extends "layout.html" %}
 {% block title %}Chat - {{profile[0]}}{% endblock %}
 {% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page">Etusivu</li>
+  </ol>
+</nav>
 <h1>{{ profile[0] }} </h1>
 <br>
 {% if profile[1] %}

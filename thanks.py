@@ -1,11 +1,5 @@
 from db import db
 
-def get_all_thanks():
-    sql = "SELECT thread_id, message_id, COUNT(*) FROM thanks WHERE visible GROUP BY thread_id, message_id"
-    result = db.session.execute(sql)
-    thanks = result.fetchall()
-    return thanks
-
 def thank_message(message_id,username):
     try:
         sql = "INSERT INTO thanks (message_id, created_by) VALUES (:message_id, :created_by)"

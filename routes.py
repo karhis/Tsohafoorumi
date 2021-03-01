@@ -4,8 +4,9 @@ import threads
 import messages
 import users
 import forums
-from forms import RegistartionForm
+from forms import RegistartionForm, LoginForm
 from flask import request, redirect, render_template, session, flash
+
 
 @app.route("/")
 def index():
@@ -24,11 +25,10 @@ def forum(forum_id):
 @app.route("/forum/<forum_id>/sub/<subforum_id>")
 def subforum(forum_id,subforum_id):
     titles = threads.get_thread_info(subforum_id)
-    subforum_id = subforum_id
     latest_reply = messages.get_latest_reply(subforum_id)
     subforum_name = forums.get_subforum_name(subforum_id)
-    forum_id = forum_id
-    return render_template("subforum.html", titles=titles, subforum_id=subforum_id, forum_id=forum_id, subforum_name=subforum_name, latest_reply=latest_reply)
+    forum_name = forums.get_forum_name(forum_id)
+    return render_template("subforum.html", titles=titles, subforum_id=subforum_id, forum_id=forum_id, subforum_name=subforum_name, forum_name=forum_name, latest_reply=latest_reply)
 
 @app.route("/createforum", methods=["POST"])
 def createforum():
@@ -57,6 +57,11 @@ def new(forum_id,subforum_id):
     subforum_id = subforum_id
     forum_id = forum_id;
     return render_template("new.html", subforum_id=subforum_id, forum_id=forum_id)
+
+@app.route("/login")
+def login_form():
+    form = LoginForm()
+    return render_template("login.html", form=form)
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -110,7 +115,7 @@ def thank():
     if thank_type == "1":           #1 for messages, 0 for threads
         message_id = request.form["message_id"]
         thanks.thank_message(message_id,username)
-        return redirect(request.referrer)
+        return redirect(request.referrer)     
     else:
         thread_id = request.form["thread_id"]
         thanks.thank_thread(thread_id,username)
@@ -176,13 +181,14 @@ def send():
     flash('Keskustelu luotu!')
     return redirect("/forum/"+str(forum_id)+"/sub/"+str(subforum_id))
 
-@app.route("/thread/<id>")
-def thread(id):
-    title = threads.get_title(id)
-    locked = threads.get_locked(id)
-    replys = messages.get_replys(id)
-    likes = thanks.get_all_thanks()
-    return render_template("thread.html", title=title, locked=locked, messages=replys, id=id, thanks=likes)
+@app.route("/forum/<forum_id>/sub/<subforum_id>/thread/<thread_id>")
+def thread(forum_id,subforum_id,thread_id):
+    title = threads.get_title(thread_id)
+    locked = threads.get_locked(thread_id)
+    replys = messages.get_replys(thread_id)
+    subforum_name = forums.get_subforum_name(subforum_id)
+    forum_name = forums.get_forum_name(forum_id)
+    return render_template("thread.html", title=title, locked=locked, messages=replys, thread_id=thread_id, subforum_name=subforum_name, forum_name=forum_name, forum_id=forum_id, subforum_id=subforum_id)
 
 @app.route("/lock", methods=["POST"])
 def lock():   
