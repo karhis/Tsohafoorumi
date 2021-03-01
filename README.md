@@ -25,7 +25,6 @@ TODO/Known issues:
 * Syötetyn tiedon tarkastaminen
 * Tykkäyksen peruminen
 * Breadcrumb linkit
-* Viimeisin viesti toimimaan
 * Navbar ei piiloudu ikkunan kokoa muokatessa
 * _Käyttäjä voi poistaa/muokata lähettämiään viestejä?_
 * _Lankojen lukukerrat ja muut tilastot?_

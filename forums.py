@@ -7,13 +7,13 @@ def get_all_forums():
     return forumlist
 
 def get_all_subforums():
-    sql = "SELECT S.id, S.name, S.descri, S.forum_id, COUNT(DISTINCT T.id), COUNT(DISTINCT M.id) FROM subforums S LEFT OUTER JOIN threads T ON S.id = T.subforum_id AND T.visible LEFT OUTER JOIN messages M ON T.id = M.thread_id AND M.visible WHERE S.visible GROUP BY S.id"
+    sql = "SELECT S.id, S.name, S.descri, S.forum_id, COUNT(DISTINCT T.id), COUNT(DISTINCT M.id), MAX(M.date) FROM subforums S LEFT OUTER JOIN threads T ON S.id = T.subforum_id AND T.visible LEFT OUTER JOIN messages M ON T.id = M.thread_id AND M.visible WHERE S.visible GROUP BY S.id"
     result = db.session.execute(sql)
     subforumlist = result.fetchall()
     return subforumlist
 
 def get_subforums(forum_id):
-    sql = "SELECT S.id, S.name, S.descri, COUNT(DISTINCT T.id), COUNT(DISTINCT M.id) FROM subforums S LEFT OUTER JOIN threads T ON S.id = T.subforum_id AND T.visible LEFT OUTER JOIN messages M ON T.id = M.thread_id AND M.visible WHERE S.visible AND S.forum_id=:forum_id GROUP BY S.id"
+    sql = "SELECT S.id, S.name, S.descri, COUNT(DISTINCT T.id), COUNT(DISTINCT M.id), MAX(M.date) FROM subforums S LEFT OUTER JOIN threads T ON S.id = T.subforum_id AND T.visible LEFT OUTER JOIN messages M ON T.id = M.thread_id AND M.visible WHERE S.visible AND S.forum_id=:forum_id GROUP BY S.id"
     result = db.session.execute(sql, {"forum_id":forum_id})
     subforumlist = result.fetchall()
     return subforumlist
