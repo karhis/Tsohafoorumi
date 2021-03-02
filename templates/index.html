@@ -1,43 +1,51 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
 {% block content %}
+
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page">Etusivu</li>
   </ol>
 </nav>
 <hr>
+
 {% if session["mod"] %}
-  <a href="/newforum">Luo keskustelualue</a>
+<a href="/newforum">Luo keskustelualue</a>
 {% endif %}
+
 {% for forum in forumlist %}
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col"><a href="/forum/{{ forum[0] }}" style="color:white;">{{ forum[1] }}</a></th>
-        <th scope="col" style="color:white;">Keskustelut</th>
-        <th scope="col" style="color:white;">Viestit</th>
-        <th scope="col" style="color:white;">Viimeisin viesti</th>
-      </tr>
-    </thead>
-    <tbody>
-        {% for subforum in subforumlist %}
-          {% if subforum[3] == forum[0] %}
-            <tr class="table-primary">
-              <th scope="row">
-                <h3><a href="/forum/{{ forum[0] }}/sub/{{ subforum[0] }}"> {{ subforum[1] }}</a></h3>
-                {{ subforum[2] }}
-              </th>
-              <td>{{ subforum[4] }}</td>
-              <td>{{ subforum[5] }}</td>
-              <td>{{ subforum[6].strftime("%Y-%m-%d %H:%M:%S") }}</td>
-            </tr>
-          {% endif %}
-        {% endfor %}
-    </tbody>
-  </table>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col"><a href="/forum/{{ forum[0] }}" style="color:white;">{{ forum[1] }}</a></th>
+      <th scope="col" style="color:white;">Keskustelut</th>
+      <th scope="col" style="color:white;">Viestit</th>
+      <th scope="col" style="color:white;">Viimeisin viesti</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for subforum in subforumlist %}
+    {% if subforum[3] == forum[0] %}
+    <tr class="table-primary">
+      <th scope="row">
+        <h3><a href="/forum/{{ forum[0] }}/sub/{{ subforum[0] }}"> {{ subforum[1] }}</a></h3>
+        {{ subforum[2] }}
+      </th>
+      <td>{{ subforum[4] }}</td>
+      <td>{{ subforum[5] }}</td>
+      {% if subforum[6] is none %}
+      <td> </td>
+      {% else %}
+      <td>{{ subforum[6].strftime("%Y-%m-%d %H:%M:%S") }}</td>
+      {% endif %}
+    </tr>
+    {% endif %}
+    {% endfor %}
+  </tbody>
+</table>
 {% endfor %}
+
 <h3>Tilastoja</h3>
 <p>Lankojen määrä: {{ total_thread_amount }}</p>
-{% endblock %}
 
+{% endblock %}

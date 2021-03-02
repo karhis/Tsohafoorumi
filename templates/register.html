@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
 {% block title %}Rekisteröidy{% endblock %}
 {% block content %}
+
 {% from "_formhelpers.html" import render_field %}
+
 <form action="/register" method="POST">
   <dl>
     {{ render_field(form.username) }}
@@ -10,4 +12,5 @@
   </dl>
   <p><input type=submit value=Rekisteröidy>
 </form>
+
 {% endblock %}

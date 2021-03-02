@@ -6,40 +6,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Tsohafoorumi - {% block title %}{% endblock %}</title>
+
 <div id="wrap">
-<nav class="navbar navbar-lightjustify-content-between">
-  <a class="navbar-brand"><a href="/" class="text-white">Tsohafoorumi</a></a>
-  <form class="form-inline" action="/result" method="GET">
-    <input class="form-control mr-sm-2" type="search" placeholder="Etsi..." name="query">
-    <button type="submit"><i class="fa fa-search"></i></button>
-  </form>
-</nav>
-<br>
-{% with messages = get_flashed_messages() %}
+
+  <nav class="navbar navbar-lightjustify-content-between">
+    <a class="navbar-brand"><a href="/" class="text-white">Tsohafoorumi</a></a>
+    <form class="form-inline" action="/result" method="GET">
+      <input class="form-control mr-sm-2" type="search" placeholder="Etsi..." name="query">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </nav>
+  <br>
+
+  {% with messages = get_flashed_messages() %}
   {% if messages %}
-    <ul class=flashes>
+  <ul class=flashes>
     {% for message in messages %}
-      <div class="alert alert- alert-success">
-        <strong>{{ message }}</strong> 
-      </div>
+    <div class="alert alert- alert-success">
+      <strong>{{ message }}</strong>
+    </div>
     {% endfor %}
-    </ul>
+  </ul>
   {% endif %}
-{% endwith %}
-<nav class="navbar navbar-expand-sm"> 
-  <ul class="navbar-nav ml-auto"> 
-    <li class="nav-item"> 
-      <a class="nav-link" href="/userlist"> 
-        Lista käyttäjistä 
-        </a> 
-    </li> 
-    {% if session["username"] %} 
+  {% endwith %}
+
+  <nav class="navbar navbar-expand-sm">
+    <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" href="/logout"> 
-          Kirjaudu ulos 
+        <a class="nav-link" href="/userlist">
+          Lista käyttäjistä
         </a>
-      </li> 
-    {% else %}
+      </li>
+      {% if session["username"] %}
+      <li class="nav-item">
+        <a class="nav-link" href="/logout">
+          Kirjaudu ulos
+        </a>
+      </li>
+      {% else %}
       <li class="nav-item">
         <a class="nav-link" href="/login">
           Kirjaudu sisään
@@ -49,14 +53,17 @@
         <a class="nav-link" href="/register">
           Rekisteröidy
         </a>
-      </li> 
-    {% endif %}
-  </ul> 
-</nav> 
-{% if session["banned"] %}
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  {% if session["banned"] %}
   <div class="alert alert-danger" role="alert">
     Olet saanut porttikiellon!
   </div>
-{% endif %}
-{% block content %}{% endblock %}
+  {% endif %}
+
+  {% block content %}{% endblock %}
+  
 </div>

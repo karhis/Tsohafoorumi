@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}{{ subforum_name }}{% endblock %}
 {% block content %}
+
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/">Etusivu</a></li>
@@ -8,20 +9,25 @@
     <li class="breadcrumb-item active" aria-current="page">{{ subforum_name }}</li>
   </ol>
 </nav>
+
 {% if session["mod"] %}
-  <hr>
-  <form action="/delete" method="POST">
-      <fieldset class="form-group">
-      <input type="hidden" name="delete_id" value="{{ subforum_id }}">
-      <input type="hidden" name="delete_type" value="3">
-      <button type="submit" class="btn btn-danger">POISTA ALALAUTA</button>
-      </fieldset>
-  </form>
+<hr>
+<form action="/delete" method="POST">
+  <fieldset class="form-group">
+    <input type="hidden" name="delete_id" value="{{ subforum_id }}">
+    <input type="hidden" name="delete_type" value="3">
+    <button type="submit" class="btn btn-danger">Poista alalauta</button>
+  </fieldset>
+</form>
 {% endif %}
+
 <h3><a href="/forum/{{ forum_id }}/sub/{{ subforum_id }}"> {{ subforum_name }} </h3></a>
+
 {% if session["username"] %}
-  <button type="button" class="btn btn-info"><a href="/forum/{{ forum_id }}/sub/{{ subforum_id }}/new" style="color:white;">Tee lanka</a></button>
+<button type="button" class="btn btn-info"><a href="/forum/{{ forum_id }}/sub/{{ subforum_id }}/new"
+    style="color:white;">Tee lanka</a></button>
 {% endif %}
+
 <table class="table table-hover">
   <thead>
     <tr>
@@ -33,19 +39,24 @@
   </thead>
   <tbody>
     {% for title in titles %}
-      <tr class="table-primary">
-        <th scope="row">
-          {% if title[4] %}
-            <i class="gg-lock"></i>
-          {% endif %}
-          <h5><a href="/forum/{{ forum_id }}/sub/{{ subforum_id }}/thread/{{ title[0] }}"> {{ title[1] }}</a></h5>
-          <a href="/profile/{{ title[2] }}"> {{ title[5] }}</a> > {{ title[3].strftime("%Y-%m-%d %H:%M:%S") }}
-        </th>
-        <td>{{ title[7] }}</td>
-        <td>{{ title[6] }}</td>
-        <td>{{ title[8].strftime("%Y-%m-%d %H:%M:%S") }}</td>
-      </tr>
+    <tr class="table-primary">
+      <th scope="row">
+        {% if title[4] %}
+        <i class="gg-lock"></i>
+        {% endif %}
+        <h5><a href="/forum/{{ forum_id }}/sub/{{ subforum_id }}/thread/{{ title[0] }}"> {{ title[1] }}</a></h5>
+        <a href="/profile/{{ title[2] }}"> {{ title[5] }}</a> > {{ title[3].strftime("%Y-%m-%d %H:%M:%S") }}
+      </th>
+      <td>{{ title[7] }}</td>
+      <td>{{ title[6] }}</td>
+      {% if title[8] is none %}
+      <td> </td>
+      {% else %}
+      <td>{{ title[8].strftime("%Y-%m-%d %H:%M:%S") }}</td>
+      {% endif %}
+    </tr>
     {% endfor %}
   </tbody>
 </table>
+
 {% endblock %}

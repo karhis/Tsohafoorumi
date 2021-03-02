@@ -1,64 +1,73 @@
 {% extends "layout.html" %}
 {% block title %}{{ profile[0] }}{% endblock %}
 {% block content %}
+
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/">Etusivu</a></li>
   </ol>
 </nav>
+
 <h1>
   {{ profile[0] }}
 </h1>
 
 {% if profile[1] %}
-  <div class="alert alert-danger" role="alert">
-    Käyttäjä {{ profile[0] }} on saanut porttikiellon.
-  </div>
+<div class="alert alert-danger" role="alert">
+  Käyttäjä {{ profile[0] }} on saanut porttikiellon.
+</div>
 {% endif %}
+
 {% if session["mod"] %}
-  {% if profile[1] %}
-    <form action="/ban" method="POST">
-      <fieldset class="form-group">
-      <input type="hidden" name="ban_id" value="{{ id }}">
-      <input type="hidden" name="ban_type" value="0">
-      <button type="submit" class="btn btn-danger">POISTA PORTTIKIELTO</button>
-    </form>
-  {% else %}
-    <form action="/ban" method="POST">
-        <fieldset class="form-group">
-        <input type="hidden" name="ban_id" value="{{ id }}">
-        <input type="hidden" name="ban_type" value="1">
-        <button type="submit" class="btn btn-danger">ANNA PORTTIKIELTO</button>
-    </form>
-  {% endif %}
+{% if profile[1] %}
+<form action="/ban" method="POST">
+  <fieldset class="form-group">
+    <input type="hidden" name="ban_id" value="{{ id }}">
+    <input type="hidden" name="ban_type" value="0">
+    <button type="submit" class="btn btn-danger">POISTA PORTTIKIELTO</button>
+</form>
+{% else %}
+<form action="/ban" method="POST">
+  <fieldset class="form-group">
+    <input type="hidden" name="ban_id" value="{{ id }}">
+    <input type="hidden" name="ban_type" value="1">
+    <button type="submit" class="btn btn-danger">ANNA PORTTIKIELTO</button>
+</form>
 {% endif %}
+{% endif %}
+
 {% if session["username"] %}
-    <button type="button" class="btn btn-info"><a href="/profile/{{id}}/chat" style="color:white;">Chat</a></button>
+<button type="button" class="btn btn-info"><a href="/profile/{{id}}/chat" style="color:white;">Chat</a></button>
 {% endif %}
+
 <br>
-<b><p>Lähetetyt viestit:</p></b>
+<b>
+  <p>Lähetetyt viestit:</p>
+</b>
+
 {% for reply in messages %}
-  <div class="jumbotron">
-    <div class="row">
-      <div class="col-md-1 offset-md-1 mx-1 my-1">
-        <p>{{ reply[4] }}</p>
-      </div>
-      <div class="col-sm-9 text-md-left ml-3 mt-3">
-        <h3>{{ reply[1] }}</h3>
-        <br>
-        {% set ms = namespace(likes=0) %}
-        {% for thank in thanks %}
-        {% if thank[1] == reply[0]: %}
-        {% set ms.likes = thank[2] %}
-        {% endif %}
-        {% endfor %}
-        <small>{{ reply[3].strftime("%Y-%m-%d %H:%M:%S") }}</small>
-        <br>
-        <small>Tykkäykset : {{ ms.likes }}</small>
-        <br>
-      </div>
+<div class="jumbotron">
+  <div class="row">
+    <div class="col-md-1 offset-md-1 mx-1 my-1">
+      <p>{{ reply[4] }}</p>
+    </div>
+    <div class="col-sm-9 text-md-left ml-3 mt-3">
+      <h3>{{ reply[1] }}</h3>
+      <br>
+      {% set ms = namespace(likes=0) %}
+      {% for thank in thanks %}
+      {% if thank[1] == reply[0]: %}
+      {% set ms.likes = thank[2] %}
+      {% endif %}
+      {% endfor %}
+      <small>{{ reply[3].strftime("%Y-%m-%d %H:%M:%S") }}</small>
+      <br>
+      <small>Tykkäykset : {{ ms.likes }}</small>
+      <br>
     </div>
   </div>
-  <br>
+</div>
+<br>
 {% endfor %}
+
 {% endblock %}

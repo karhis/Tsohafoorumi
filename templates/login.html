@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
 {% block title %}Kirjaudu sisään{% endblock %}
 {% block content %}
+
 {% from "_formhelpers.html" import render_field %}
+
 <form action="/login" method="POST">
   <dl>
     {{ render_field(form.username) }}
@@ -9,4 +11,5 @@
   </dl>
   <p><input type=submit value="Kirjaudu sisään">
 </form>
+
 {% endblock %}

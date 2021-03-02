@@ -1,11 +1,13 @@
 {% extends "layout.html" %}
 {% block title %}Käyttäjälista{% endblock %}
 {% block content %}
+
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/">Etusivu</a></li>
   </ol>
 </nav>
+
 <table class="table table-hover">
   <thead>
     <tr>
@@ -13,13 +15,14 @@
       <th scope="col">Luotu</th>
     </tr>
   </thead>
-  <tbody>  
+  <tbody>
     {% for user in users %}
-      <tr class="table-info">
-        <th scope="row"><a href="/profile/{{ user[0] }}"> {{ user[1] }}</a></th>
-        <td>{{ user[2].strftime("%Y-%m-%d %H:%M:%S") }}</td>
-      </tr>
+    <tr class="table-info">
+      <th scope="row"><a href="/profile/{{ user[0] }}"> {{ user[1] }}</a></th>
+      <td>{{ user[2].strftime("%Y-%m-%d %H:%M:%S") }}</td>
+    </tr>
     {% endfor %}
   </tbody>
 </table>
+
 {% endblock %}

@@ -161,7 +161,7 @@ def reply():
         thread_id = request.form["thread_id"]
         messages.send_reply(message, thread_id, username)
         flash('Viesti lähetetty!')
-        return redirect("/thread/"+str(thread_id))
+        return redirect(request.referrer)
 
 @app.route("/profile/<id>")
 def profile(id):

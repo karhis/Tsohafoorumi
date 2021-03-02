@@ -1,26 +1,30 @@
 {% extends "layout.html" %}
 {% block title %}Chat - {{profile[0]}}{% endblock %}
 {% block content %}
+
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page">Etusivu</li>
   </ol>
 </nav>
+
 <h1>{{ profile[0] }} </h1>
 <br>
+
 {% if profile[1] %}
 <div class="alert alert-danger" role="alert">
   Käyttäjä {{ profile[0] }} on saanut porttikiellon.
 </div>
 {% endif %}
+
 {% for dm in dms %}
 <div class="jumbotron">
   <div class="row">
     <div class="col-md-1 offset-md-1 mx-1 my-1">
       {% if dm[3] == profile[2] %}
-        <p>{{ profile[0] }}</p>
+      <p>{{ profile[0] }}</p>
       {% else %}
-        <p>Sinä</p>
+      <p>Sinä</p>
       {% endif %}
     </div>
     <div class="col-sm-9 text-md-left ml-3 mt-3">
@@ -32,25 +36,27 @@
   </div>
 </div>
 {% endfor %}
+
 {% if profile[1]==True or session["banned"]==True %}
 <fieldset disabled>
-<form action="/reply" method="POST">
+  <form action="/reply" method="POST">
     <p>Viesti:<br>
-    <input type="text" name="message">
+      <input type="text" name="message">
     </p>
     <input type="hidden" name="sent_to" value="{{ id }}">
     <input type="hidden" name="reply_type" value="1">
     <input type="submit" value="Lähetä viesti">
-</form>
+  </form>
 </fieldset>
 {% else %}
 <form action="/reply" method="POST">
-    <p>Viesti:<br>
+  <p>Viesti:<br>
     <input type="text" name="message">
-    </p>
-    <input type="hidden" name="sent_to" value="{{ id }}">
-    <input type="hidden" name="reply_type" value="1">
-    <input type="submit" value="Lähetä viesti">
+  </p>
+  <input type="hidden" name="sent_to" value="{{ id }}">
+  <input type="hidden" name="reply_type" value="1">
+  <input type="submit" value="Lähetä viesti">
 </form>
 {% endif %}
+
 {% endblock %}

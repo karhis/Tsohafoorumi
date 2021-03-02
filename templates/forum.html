@@ -1,46 +1,53 @@
 {% extends "layout.html" %}
 {% block title %}{{ forumname }}{% endblock %}
 {% block content %}
+
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/">Etusivu</a></li>
     <li class="breadcrumb-item active" aria-current="page">{{ forumname }}</li>
   </ol>
 </nav>
+
 {% if session["mod"] %}
-  <hr>
-  <a href="/forum/{{ forum_id }}/newforum">Luo alalauta</a>
-  <form action="/delete" method="POST">
-    <fieldset class="form-group">
-      <input type="hidden" name="delete_id" value="{{ forum_id }}">
-      <input type="hidden" name="delete_type" value="2">
-      <button type="submit" class="btn btn-danger">POISTA KESKUSTELUALUE</button>
-    </fieldset>
-  </form>
+<hr>
+<a href="/forum/{{ forum_id }}/newforum">Luo alalauta</a>
+<form action="/delete" method="POST">
+  <fieldset class="form-group">
+    <input type="hidden" name="delete_id" value="{{ forum_id }}">
+    <input type="hidden" name="delete_type" value="2">
+    <button type="submit" class="btn btn-danger">Poista keskustelualue</button>
+  </fieldset>
+</form>
 {% endif %}
+
 <h3><a href="/forum/{{ forum_id }}"> {{ forumname }}</h3></a>
 <table class="table table-hover">
-    <thead>
-      <tr>
-        <th style="color:white;" scope="col">Alalauta</th>
-        <th style="color:white;" scope="col">Keskustelut</th>
-        <th style="color:white;" scope="col">Viestit</th>
-        <th style="color:white;" scope="col">Viimeisin viesti</th>
-      </tr>
-    </thead>
-    <tbody>
-        {% for subforum in subforumlist %}
-          <tr class="table-primary">
-            <th scope="row">
-              <h3><a href="/forum/{{ forum_id }}/sub/{{ subforum[0] }}"> {{ subforum[1] }}</a></h3>
-              {{ subforum[2] }}
-            </th>
-            <td>{{ subforum[3] }}</td>
-            <td>{{ subforum[4] }}</td>
-            <td>{{ subforum[5].strftime("%Y-%m-%d %H:%M:%S") }}</td>
-        {% endfor %}
-      </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th style="color:white;" scope="col">Alalauta</th>
+      <th style="color:white;" scope="col">Keskustelut</th>
+      <th style="color:white;" scope="col">Viestit</th>
+      <th style="color:white;" scope="col">Viimeisin viesti</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for subforum in subforumlist %}
+    <tr class="table-primary">
+      <th scope="row">
+        <h3><a href="/forum/{{ forum_id }}/sub/{{ subforum[0] }}"> {{ subforum[1] }}</a></h3>
+        {{ subforum[2] }}
+      </th>
+      <td>{{ subforum[3] }}</td>
+      <td>{{ subforum[4] }}</td>
+      {% if subforum[5] is none %}
+      <td> </td>
+      {% else %}
+      <td>{{ subforum[5].strftime("%Y-%m-%d %H:%M:%S") }}</td>
+      {% endif %}
+      {% endfor %}
+    </tr>
+  </tbody>
 </table>
-{% endblock %}
 
+{% endblock %}
