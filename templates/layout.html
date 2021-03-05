@@ -39,6 +39,11 @@
       </li>
       {% if session["username"] %}
       <li class="nav-item">
+        <a class="nav-link" href="/profile/{{ session["username"] }}">
+          Oma profiili
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="/logout">
           Kirjaudu ulos
         </a>

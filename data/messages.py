@@ -54,16 +54,22 @@ def send_reply(message,thread_id,id):
     db.session.commit()
 
 def get_replys_titles(id):
-    sql = """SELECT M.id, M.content, M.thread_id, M.date, T.title 
-               FROM messages M, threads T 
+    sql = """SELECT M.id, M.content, M.thread_id, M.date, T.title, COUNT(DISTINCT L.id)
+               FROM messages M 
+                    LEFT OUTER JOIN threads T
+                    ON M.thread_id=T.id 
+
+                    LEFT OUTER JOIN thanks L
+                    ON M.id=L.message_id
               WHERE M.visible 
                     AND M.created_by=:id 
-                    AND T.id=M.thread_id"""
+                    AND T.id=M.thread_id 
+              GROUP BY M.id, T.title"""
     result = db.session.execute(sql, {"id":id})
     return result.fetchall()
 
 def get_replys(thread_id):
-    sql = """SELECT M.id, M.content, M.created_by, M.date, U.name, COUNT(DISTINCT T.id) 
+    sql = """SELECT M.id, M.content, M.created_by, M.date, U.name, U.signature, COUNT(DISTINCT T.id) 
                FROM messages M 
                     LEFT OUTER JOIN thanks T 
                     ON M.id=T.message_id 
@@ -72,7 +78,7 @@ def get_replys(thread_id):
                     ON M.created_by=U.id 
               WHERE M.thread_id=:thread_id 
                     AND M.visible 
-              GROUP BY M.id, U.name"""
+              GROUP BY M.id, U.name, U.signature"""
     result = db.session.execute(sql, {"thread_id":thread_id})
     return result.fetchall()
 

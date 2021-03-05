@@ -2,6 +2,7 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     name VARCHAR (32) UNIQUE,
     pass TEXT,
+    signature VARCHAR (120),
     admin BOOLEAN DEFAULT FALSE,
     visible BOOLEAN DEFAULT TRUE,
     banned BOOLEAN DEFAULT FALSE,

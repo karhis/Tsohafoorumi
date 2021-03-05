@@ -37,32 +37,59 @@
 {% endif %}
 
 {% if session["username"] %}
-<button type="button" class="btn btn-info"><a href="/profile/{{id}}/chat" style="color:white;">Chat</a></button>
+<button type="button" class="btn btn-info"><a href="/profile/{{ id }}/chat" style="color:white;">Chat</a></button>
 {% endif %}
+<br>
 
+{% if session["username"]|int()==id|int() %}
+{% if profile[3] is not none %}
+<b>
+  Allekirjoituksesi on:
+  <p>{{ profile[3] }}</p>
+</b>
+<form action="/signature" method="POST">
+  <input type="text" name="signature">
+  <input type="hidden" name="user_id" value="{{ id }}">
+  <input type="submit" value="Muokkaa allekirjoitusta">
+</form>
+{% else %}
+<b>
+  <p>Sinulla ei ole allekirjoitusta</p>
+</b>
+{% if session["banned"] %}
+<fieldset disabled>
+  <form action="/signature" method="POST">
+    <input type="text" name="signature">
+    <input type="hidden" name="user_id" value="{{ id }}">
+    <input type="submit" value="Lisää allekirjoitus">
+  </form>
+</fieldset>
+{% else %}
+<form action="/signature" method="POST">
+  <input type="text" name="signature">
+  <input type="hidden" name="user_id" value="{{ id }}">
+  <input type="submit" value="Lisää allekirjoitus">
+</form>
+{% endif %}
+{% endif %}
+{% endif %}
 <br>
 <b>
-  <p>Lähetetyt viestit:</p>
+  Lähetetyt viestit:
 </b>
 
 {% for reply in messages %}
 <div class="jumbotron">
   <div class="row">
     <div class="col-md-1 offset-md-1 mx-1 my-1">
-      <p>{{ reply[4] }}</p>
+      <a href="/thread/{{ reply[2] }}">{{ reply[4] }}</a>
     </div>
     <div class="col-sm-9 text-md-left ml-3 mt-3">
       <h3>{{ reply[1] }}</h3>
       <br>
-      {% set ms = namespace(likes=0) %}
-      {% for thank in thanks %}
-      {% if thank[1] == reply[0]: %}
-      {% set ms.likes = thank[2] %}
-      {% endif %}
-      {% endfor %}
       <small>{{ reply[3].strftime("%Y-%m-%d %H:%M:%S") }}</small>
       <br>
-      <small>Tykkäykset : {{ ms.likes }}</small>
+      <small>Tykkäykset: {{ reply[5] }}</small>
       <br>
     </div>
   </div>

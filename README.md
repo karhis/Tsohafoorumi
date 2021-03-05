@@ -13,20 +13,17 @@ Sovelluksessa on seuraavat toiminnallisuudet:
 * Viestien lähettäminen lankoihin tai toiselle käyttäjälle
 * Tykkääminen, langat ja julkiset viestit
 * Viestin, langan tai käyttäjän hakeminen
+* Oman allekirjoituksen lisääminen
 * (ADMIN) Keskustelualueiden ja niiden alalautojen lisääminen
 * (ADMIN) Lankojen, viestien, keskustelualuiden ja alalautojen poisto
 * (ADMIN) Lankojen lukitseminen
 * (ADMIN) Käyttäjien bannaaminen
 
 TODO/Known issues:
-* __Yleinen siistiminen, refaktorointi ja rakenteen korjaus__
-* Tietoturva
-* Ulkoasu
 * _Tykkäyksen peruminen_
-* _Käyttäjä voi poistaa/muokata lähettämiään viestejä?_
-* _Lankojen lukukerrat ja muut tilastot?_
-* _Profiilikuvat?_
-* _Käyttäjien "foorumisignature"?_
+* _Käyttäjä voi poistaa/muokata lähettämiään viestejä_
+* _Lankojen lukukerrat ja muut tilastot_
+* _Profiilikuvat_
 * _Sinun ehdotuksesi tähän?_
 
 

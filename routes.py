@@ -135,6 +135,9 @@ def ban():
         users.unban_user(ban_id)
         return redirect("/")
     
-    
-
-
+@auth.route("/signature", methods=["POST"])
+def signature():
+    user_id = request.form["user_id"]
+    signature = request.form["signature"]
+    users.add_signature(user_id,signature)
+    return redirect(request.referrer)

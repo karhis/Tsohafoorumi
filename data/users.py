@@ -75,9 +75,16 @@ def unban_user(ban_id):
     db.session.commit()
 
 def get_profile(id):
-    sql = """SELECT name, banned, id 
+    sql = """SELECT name, banned, id, signature 
                FROM users 
               WHERE visible 
                     AND id=:id"""
     result = db.session.execute(sql, {"id":id})
     return result.fetchone()
+
+def add_signature(id,signature):
+    sql = """UPDATE users
+                SET signature=:signature
+              WHERE id=:id"""
+    db.session.execute(sql, {"id":id, "signature":signature})
+    db.session.commit()
