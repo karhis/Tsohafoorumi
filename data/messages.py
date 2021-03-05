@@ -1,4 +1,4 @@
-from db import db
+from data.db import db
 
 def get_message_query(query):
     sql = """SELECT M.content, M.thread_id, U.name, U.id, T.subforum_id, S.forum_id 

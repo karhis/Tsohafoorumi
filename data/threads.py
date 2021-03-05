@@ -1,4 +1,4 @@
-from db import db
+from data.db import db
 
 def get_thread_info(subforum_id):
     sql = """SELECT T.id, T.title, T.created_by, T.date, T.locked, U.name,  
@@ -61,21 +61,12 @@ def new(title,username,subforum_id):
     return result.fetchone()[0]
 
 def get_title(thread_id):
-    sql = """SELECT T.title 
-               FROM threads T 
-              WHERE T.id=:id 
-                    AND T.visible 
-              GROUP BY T.title"""
-    result = db.session.execute(sql, {"id":thread_id})
-    return result.fetchone()[0]
-
-def get_locked(thread_id):
-    sql = """SELECT locked 
+    sql = """SELECT title, locked, subforum_id 
                FROM threads 
               WHERE id=:id 
-                    AND visible"""
+                    AND visible """
     result = db.session.execute(sql, {"id":thread_id})
-    return result.fetchone()[0]
+    return result.fetchone()
 
 def lock_thread(thread_id):
     sql = """UPDATE threads 

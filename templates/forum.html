@@ -11,7 +11,7 @@
 
 {% if session["mod"] %}
 <hr>
-<a href="/forum/{{ forum_id }}/newforum">Luo alalauta</a>
+<a href="/create/subforum/{{ forum_id }}">Luo alalauta</a>
 <form action="/delete" method="POST">
   <fieldset class="form-group">
     <input type="hidden" name="delete_id" value="{{ forum_id }}">
@@ -35,7 +35,7 @@
     {% for subforum in subforumlist %}
     <tr class="table-primary">
       <th scope="row">
-        <h3><a href="/forum/{{ forum_id }}/sub/{{ subforum[0] }}"> {{ subforum[1] }}</a></h3>
+        <h3><a href="/subforum/{{ subforum[0] }}"> {{ subforum[1] }}</a></h3>
         {{ subforum[2] }}
       </th>
       <td>{{ subforum[3] }}</td>

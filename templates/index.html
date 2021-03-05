@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
 {% block content %}
-
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page">Etusivu</li>
@@ -10,7 +9,7 @@
 <hr>
 
 {% if session["mod"] %}
-<a href="/newforum">Luo keskustelualue</a>
+<a href="/create/forum">Luo keskustelualue</a>
 {% endif %}
 
 {% for forum in forumlist %}
@@ -28,7 +27,7 @@
     {% if subforum[3] == forum[0] %}
     <tr class="table-primary">
       <th scope="row">
-        <h3><a href="/forum/{{ forum[0] }}/sub/{{ subforum[0] }}"> {{ subforum[1] }}</a></h3>
+        <h3><a href="/subforum/{{ subforum[0] }}"> {{ subforum[1] }}</a></h3>
         {{ subforum[2] }}
       </th>
       <td>{{ subforum[4] }}</td>

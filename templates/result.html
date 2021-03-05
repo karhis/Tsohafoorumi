@@ -19,7 +19,7 @@
   <tbody>
     <tr class="table-info">
       <th scope="row"><a href="/profile/{{ message[3] }}"> {{ message[2] }} </a></th>
-      <td><a href="/forum/{{ message[5] }}/sub/{{ message[4] }}/thread/{{ message[1] }}"> {{ message[0] }} </a></td>
+      <td><a href="/thread/{{ message[1] }}"> {{ message[0] }} </a></td>
     </tr>
     {% endfor %}
   </tbody>
@@ -51,7 +51,7 @@
   {% for thread in threads %}
   <tbody>
     <tr class="table-info">
-      <th scope="row"><a href="/forum/{{ thread[6] }}/sub/{{ thread[5] }}/thread/{{ thread[0] }}"> {{ thread[1] }}</a>
+      <th scope="row"><a href="/thread/{{ thread[0] }}"> {{ thread[1] }}</a>
       </th>
       <td>{{ thread[4] }}</td>
       <td>{{ thread[3] }}</td>

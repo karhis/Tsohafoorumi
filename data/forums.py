@@ -1,4 +1,4 @@
-from db import db
+from data.db import db
 
 def get_all_forums():
     sql = """SELECT id, name 
@@ -45,13 +45,13 @@ def get_forum_name(forum_id):
     result = db.session.execute(sql, {"forum_id":forum_id})
     return result.fetchone()[0]
 
-def get_subforum_name(subforum_id):
-    sql = """SELECT name 
+def get_subforum_info(subforum_id):
+    sql = """SELECT name, forum_id 
                FROM subforums 
               WHERE visible 
                     AND id=:subforum_id"""
     result = db.session.execute(sql, {"subforum_id":subforum_id})
-    return result.fetchone()[0]
+    return result.fetchone()
 
 def new_forum(name):
     sql = """INSERT INTO forums (name) 

@@ -21,10 +21,10 @@
 </form>
 {% endif %}
 
-<h3><a href="/forum/{{ forum_id }}/sub/{{ subforum_id }}"> {{ subforum_name }} </h3></a>
+<h3><a href="/subforum/{{ subforum_id }}"> {{ subforum_name }} </h3></a>
 
 {% if session["username"] %}
-<button type="button" class="btn btn-info"><a href="/forum/{{ forum_id }}/sub/{{ subforum_id }}/new"
+<button type="button" class="btn btn-info"><a href="/create/thread/{{ subforum_id }}"
     style="color:white;">Tee lanka</a></button>
 {% endif %}
 
@@ -44,7 +44,7 @@
         {% if title[4] %}
         <i class="gg-lock"></i>
         {% endif %}
-        <h5><a href="/forum/{{ forum_id }}/sub/{{ subforum_id }}/thread/{{ title[0] }}"> {{ title[1] }}</a></h5>
+        <h5><a href="/thread/{{ title[0] }}"> {{ title[1] }}</a></h5>
         <a href="/profile/{{ title[2] }}"> {{ title[5] }}</a> > {{ title[3].strftime("%Y-%m-%d %H:%M:%S") }}
       </th>
       <td>{{ title[7] }}</td>

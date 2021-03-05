@@ -1,4 +1,4 @@
-from db import db
+from data.db import db
 
 def thank_message(message_id,username):
     try:

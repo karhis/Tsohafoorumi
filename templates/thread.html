@@ -6,7 +6,7 @@
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/">Etusivu</a></li>
     <li class="breadcrumb-item"><a href="/forum/{{ forum_id }}">{{ forum_name }}</a></li>
-    <li class="breadcrumb-item"><a href="/forum/{{ forum_id }}/sub/{{ subforum_id }}">{{ subforum_name }}</a></li>
+    <li class="breadcrumb-item"><a href="/subforum{{ subforum_id }}">{{ subforum_name }}</a></li>
   </ol>
 </nav>
 
@@ -51,7 +51,7 @@
 </form>
 {% endif %}
 
-<h2>{{ title }}</h2>
+<h2>{{ title[0] }}</h2>
 
 {% for reply in messages %}
 <div class="jumbotron">
