@@ -3,7 +3,7 @@ from data import threads
 from data import messages
 from data import users
 from data import forums
-from forms import RegistartionForm, LoginForm
+from forms import ForumForm, RegistartionForm, LoginForm, SignatureForm, MessageForm, ThreadForm
 from flask import Blueprint, request, redirect, render_template, session, flash
 
 auth = Blueprint('auth',__name__)
@@ -49,6 +49,7 @@ def register():
             return redirect("/")
         else:
             flash('Käyttäjätunnus on jo käytössä', 'error')
+            return redirect(request.referrer)
     else:
         for field in form.errors:
                 for error in form.errors[field]:
@@ -91,45 +92,72 @@ def delete():
 
 @auth.route("/reply", methods=["POST"])
 def reply():
+    form = MessageForm(request.form)
     username = session["username"]
-    message = request.form["message"]
     reply_type = request.form["reply_type"]
-    if reply_type == "1":
-        sent_to = request.form["sent_to"]
-        messages.send_dm(message, sent_to, username)
-        flash('Viesti lähetetty', 'success')
-        return redirect("/profile/"+str(sent_to)+"/chat")
+    if form.validate():
+        if reply_type == "1":
+            sent_to = request.form["sent_to"]
+            messages.send_dm(form.message.data,sent_to,username)
+            flash('Viesti lähetetty', 'success')
+            return redirect("/profile/"+str(sent_to)+"/chat")
+        else:
+            thread_id = request.form["thread_id"]
+            messages.send_reply(form.message.data,thread_id,username)
+            flash('Viesti lähetetty', 'success')
+            return redirect(request.referrer)
     else:
-        thread_id = request.form["thread_id"]
-        messages.send_reply(message, thread_id, username)
-        flash('Viesti lähetetty', 'success')
-        return redirect(request.referrer)
+        for field in form.errors:
+            for error in form.errors[field]:
+                flash(error, 'error')
+        return redirect(request.referrer)     
 
 @auth.route("/create_forum", methods=["POST"])
 def create_forum():
-    forumname = request.form["forumname"]
+    form = ForumForm(request.form)
     forum_type = request.form["forum_type"]
-    if forum_type == "1":
-        forum_id = request.form["forum_id"]
-        descri = request.form["descri"]
-        forums.new_subforum(forumname,descri,forum_id)
-        flash('Alalauta luotu', 'success')
-        return redirect("/")
+    if form.validate():
+        if forum_type == "1":                           ##1 for subforums, 0 for forums
+            forum_id = request.form["forum_id"]
+            if forums.new_subforum(form.title.data,form.description.data,forum_id):
+                flash('Alalauta luotu', 'success')
+                return redirect("/")
+            else:
+                flash('Tällä keskustelualueella on jo samanniminen alalauta', 'error')
+                return redirect(request.referrer)
+        else:
+            if forums.new_forum(form.title.data):
+                flash('Keskustelualue luotu', 'success')
+                return redirect("/")
+            else:
+                flash('Samanniminen keskustelualue on jo olemassa', 'error')
+                return redirect(request.referrer)
     else:
-        forums.new_forum(forumname)
-        flash('Keskustelualue luotu', 'success')
-        return redirect("/")
+        for field in form.errors:
+            for error in form.errors[field]:
+                flash(error, 'error')
+        return redirect(request.referrer)    
 
 @auth.route("/create_thread", methods=["POST"])
 def create_thread():
-    title = request.form["title"]
+    form = ThreadForm(request.form)
     username = session["username"]
     subforum_id = request.form["subforum_id"]
-    thread_id = threads.new(title, username, subforum_id)
-    message = request.form["message"]
-    messages.send_reply(message, thread_id, username)
-    flash('Keskustelu luotu', 'success')
-    return redirect("/subforum/"+str(subforum_id))
+    if form.validate():
+        thread_id = threads.new(form.title.data, username, subforum_id)
+        if thread_id:
+            messages.send_reply(form.message.data, thread_id[1], username)
+            flash('Keskustelu luotu', 'success')
+            return redirect("/subforum/"+str(subforum_id))
+        else:
+            flash('Tällä alalaudalla on jo samannimen lanka', 'error')
+            return redirect(request.referrer)
+    else:
+        for field in form.errors:
+                for error in form.errors[field]:
+                    flash(error, 'error')
+        return redirect(request.referrer)   
+
 
 @auth.route("/lock", methods=["POST"])
 def lock():   
@@ -155,8 +183,14 @@ def ban():
     
 @auth.route("/signature", methods=["POST"])
 def signature():
+    form = SignatureForm(request.form)
     user_id = request.form["user_id"]
-    signature = request.form["signature"]
-    users.add_signature(user_id,signature)
-    flash('Allekirjoitus päivitetty', 'success')
-    return redirect(request.referrer)
+    if form.validate():
+        users.add_signature(user_id,form.signature.data)
+        flash('Allekirjoitus päivitetty', 'success')
+        return redirect(request.referrer)
+    else:
+        for field in form.errors:
+                for error in form.errors[field]:
+                    flash(error, 'error')
+        return redirect(request.referrer)        

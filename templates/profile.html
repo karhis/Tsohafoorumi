@@ -2,6 +2,8 @@
 {% block title %}{{ profile[0] }}{% endblock %}
 {% block content %}
 
+{% from "_formhelpers.html" import render_field %}
+
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/">Etusivu</a></li>
@@ -42,13 +44,12 @@
 <br>
 
 {% if session["username"] and session["username"]|int()==id|int() %}
-{% from "_formhelpers.html" import render_field %}
 {% if profile[3] is not none %}
 <b>
   Allekirjoituksesi on:
   <p>{{ profile[3] }}</p>
 </b>
-<form action="/signature" method="POST">
+<form action="/signature" method="POST" novalidate>
   <dl>
     {{ render_field(form.signature) }}
   </dl>

@@ -2,6 +2,8 @@
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
 
+{% from "_formhelpers.html" import render_field %}
+
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/">Etusivu</a></li>
@@ -95,23 +97,25 @@
 <br>
 
 <p>
-  {% if session.username and session["banned"]==False %}
-  Vastaa lankaan
+{% if session.username and session["banned"]==False %}
+  <b>Vastaa lankaan</b>
 </p>
 {% if locked %}
 <fieldset disabled>
-  <form action="/reply" method="POST">
-    Viesti:
-    <input type="text" name="message">
+  <form action="/reply" method="POST" novalidate>
+    <dl>
+      {{ render_field(form.message) }}
+    </dl>
     <input type="hidden" name="reply_type" value="0">
     <input type="hidden" name="thread_id" value="{{ thread_id }}">
     <input type="submit" value="Lanka on lukittu">
   </form>
 </fieldset>
 {% else %}
-<form action="/reply" method="POST">
-  Viesti:
-  <input type="text" name="message">
+<form action="/reply" method="POST" novalidate>
+  <dl>
+    {{ render_field(form.message) }}
+  </dl>
   <input type="hidden" name="reply_type" value="0">
   <input type="hidden" name="thread_id" value="{{ thread_id }}">
   <input type="submit" value="Lähetä">

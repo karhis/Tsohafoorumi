@@ -54,11 +54,14 @@ def delete_thread(thread_id):
     db.session.commit()
 
 def new(title,username,subforum_id):
-    sql = """INSERT INTO threads (title, created_by, subforum_id) 
-             VALUES (:title, :by, :subforum_id) 
-             RETURNING id"""
-    result = db.session.execute(sql, {"title":title, "by":username, "subforum_id":subforum_id})
-    return result.fetchone()[0]
+    try:
+        sql = """INSERT INTO threads (title, created_by, subforum_id) 
+                VALUES (:title, :by, :subforum_id) 
+                RETURNING id"""
+        result = db.session.execute(sql, {"title":title, "by":username, "subforum_id":subforum_id})
+        return True, result.fetchone()[0]
+    except:
+        return False
 
 def get_title(thread_id):
     sql = """SELECT title, locked, subforum_id 

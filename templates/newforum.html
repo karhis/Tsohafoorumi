@@ -2,20 +2,22 @@
 {% block title %}{% endblock %}
 {% block content %}
 
-<form action="/create_forum" method="POST">
-    <p>Nimi:<br>
-        <input type="text" name="forumname">
-    </p>
+{% from "_formhelpers.html" import render_field %}
+
+<form action="/create_forum" method="POST" novalidate>
+    <dl>
+        {{ render_field(form.title) }}
+    </dl>
     {% if forum_id|length %}
-    <input type="hidden" name="forum_id" value="{{ forum_id }}">
-    <input type="hidden" name="forum_type" value="1">
-    <p>Kuvaus:<br>
-        <input type="text" name="descri">
-    </p>
-    <input type="submit" value="Luo alalauta">
+        <input type="hidden" name="forum_id" value="{{ forum_id }}">
+        <input type="hidden" name="forum_type" value="1">
+        <dl>
+            {{ render_field(form.description) }}
+        </dl>
+        <input type="submit" value="Luo alalauta">
     {% else %}
-    <input type="hidden" name="forum_type" value="0">
-    <input type="submit" value="Luo keskustelualue">
+        <input type="hidden" name="forum_type" value="0">
+        <input type="submit" value="Luo keskustelualue">
     {% endif %}
 </form>
 

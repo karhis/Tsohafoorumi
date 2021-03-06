@@ -54,16 +54,24 @@ def get_subforum_info(subforum_id):
     return result.fetchone()
 
 def new_forum(name):
-    sql = """INSERT INTO forums (name) 
-             VALUES (:name)"""
-    db.session.execute(sql, {"name":name})
-    db.session.commit()
+    try:
+        sql = """INSERT INTO forums (name) 
+                VALUES (:name)"""
+        db.session.execute(sql, {"name":name})
+        db.session.commit()
+        return True
+    except:
+        return False
 
 def new_subforum(name,descri,forum_id):
-    sql = """INSERT INTO subforums (name, descri, forum_id) 
-             VALUES (:name, :descri, :forum_id)"""
-    db.session.execute(sql, {"name":name, "descri":descri, "forum_id":forum_id})
-    db.session.commit()
+    try:
+        sql = """INSERT INTO subforums (name, descri, forum_id) 
+                VALUES (:name, :descri, :forum_id)"""
+        db.session.execute(sql, {"name":name, "descri":descri, "forum_id":forum_id})
+        db.session.commit()
+        return True
+    except:
+        return False
 
 def delete_forum(forum_id):
     sql = """UPDATE forums 
