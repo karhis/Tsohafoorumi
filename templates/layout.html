@@ -18,57 +18,65 @@
   </nav>
   <br>
 
-  {% with messages = get_flashed_messages() %}
+  {% with messages = get_flashed_messages(category_filter='error') %}
   {% if messages %}
-  <ul class=flashes>
     {% for message in messages %}
-    <div class="alert alert- alert-success">
-      <strong>{{ message }}</strong>
-    </div>
+      <div class="alert alert-danger" role="alert">
+        {{ message }}
+      </div>
     {% endfor %}
-  </ul>
   {% endif %}
   {% endwith %}
 
-  <nav class="navbar navbar-expand-sm">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="/userlist">
-          Lista käyttäjistä
-        </a>
-      </li>
-      {% if session["username"] %}
-      <li class="nav-item">
-        <a class="nav-link" href="/profile/{{ session["username"] }}">
-          Oma profiili
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/logout">
-          Kirjaudu ulos
-        </a>
-      </li>
-      {% else %}
-      <li class="nav-item">
-        <a class="nav-link" href="/login">
-          Kirjaudu sisään
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/register">
-          Rekisteröidy
-        </a>
-      </li>
-      {% endif %}
-    </ul>
-  </nav>
-
-  {% if session["banned"] %}
-  <div class="alert alert-danger" role="alert">
-    Olet saanut porttikiellon!
-  </div>
+  {% with messages = get_flashed_messages(category_filter='success') %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-success" role="alert">
+        {{ message }}
+      </div>
+    {% endfor %}
   {% endif %}
+  {% endwith %}
 
-  {% block content %}{% endblock %}
-  
+<nav class="navbar navbar-expand-sm">
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item">
+      <a class="nav-link" href="/userlist">
+        Lista käyttäjistä
+      </a>
+    </li>
+    {% if session["username"] %}
+    <li class="nav-item">
+      <a class="nav-link" href="/profile/{{ session["username"] }}">
+        Oma profiili
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/logout">
+        Kirjaudu ulos
+      </a>
+    </li>
+    {% else %}
+    <li class="nav-item">
+      <a class="nav-link" href="/login">
+        Kirjaudu sisään
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/register">
+        Rekisteröidy
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+
+{% if session["banned"] %}
+<div class="alert alert-danger" role="alert">
+  Olet saanut porttikiellon!
+</div>
+{% endif %}
+
+{% block content %}{% endblock %}
+
 </div>

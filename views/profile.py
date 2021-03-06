@@ -1,5 +1,6 @@
 from data import users
 from data import messages
+from forms import SignatureForm
 from flask import Blueprint, render_template, session
 
 profile = Blueprint('profile',__name__,url_prefix='/profile')
@@ -8,7 +9,8 @@ profile = Blueprint('profile',__name__,url_prefix='/profile')
 def profilepage(id):
     replys = messages.get_replys_titles(id)
     profile = users.get_profile(id)
-    return render_template("profile.html", messages=replys, id=id, profile=profile)
+    form = SignatureForm()
+    return render_template("profile.html", messages=replys, id=id, profile=profile, form=form)
 
 @profile.route("/<id>/chat", methods=["GET"])
 def chat(id):

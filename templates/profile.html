@@ -41,16 +41,19 @@
 {% endif %}
 <br>
 
-{% if session["username"]|int()==id|int() %}
+{% if session["username"] and session["username"]|int()==id|int() %}
+{% from "_formhelpers.html" import render_field %}
 {% if profile[3] is not none %}
 <b>
   Allekirjoituksesi on:
   <p>{{ profile[3] }}</p>
 </b>
 <form action="/signature" method="POST">
-  <input type="text" name="signature">
+  <dl>
+    {{ render_field(form.signature) }}
+  </dl>
   <input type="hidden" name="user_id" value="{{ id }}">
-  <input type="submit" value="Muokkaa allekirjoitusta">
+  <input type="submit" value="Hyväksy">
 </form>
 {% else %}
 <b>
@@ -59,16 +62,20 @@
 {% if session["banned"] %}
 <fieldset disabled>
   <form action="/signature" method="POST">
-    <input type="text" name="signature">
+    <dl>
+      {{ render_field(form.signature) }}
+    </dl>
     <input type="hidden" name="user_id" value="{{ id }}">
-    <input type="submit" value="Lisää allekirjoitus">
+    <input type="submit" value="Hyväksy">
   </form>
 </fieldset>
 {% else %}
 <form action="/signature" method="POST">
-  <input type="text" name="signature">
+  <dl>
+    {{ render_field(form.signature) }}
+  </dl>
   <input type="hidden" name="user_id" value="{{ id }}">
-  <input type="submit" value="Lisää allekirjoitus">
+  <input type="submit" value="Hyväksy">
 </form>
 {% endif %}
 {% endif %}

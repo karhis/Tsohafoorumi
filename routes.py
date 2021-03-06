@@ -15,18 +15,24 @@ def login_form():
 
 @auth.route("/login", methods=["POST"])
 def login():
-    username = request.form["username"]
-    password = request.form["password"]
-    if users.login(username,password):
-        flash('Sisäänkirjautuminen onnistui!')
-        return redirect("/")
+    form = LoginForm(request.form)
+    if form.validate():
+        if users.login(form.username.data,form.password.data):
+            flash('Sisäänkirjautuminen onnistui!', 'success')
+            return redirect("/")
+        else:
+            flash('Sisäänkirjautuminen epäonnistui, väärä käyttäjätunnus tai salasana', 'error')
+            return redirect(request.referrer)
     else:
-        return render_template("error.html",error_message="Sisäänkirjautuminen epäonnistui, väärä käyttäjätunnus tai salasana.")
+        for field in form.errors:
+            for error in form.errors[field]:
+                flash(error, 'error')
+        return redirect(request.referrer)
 
 @auth.route("/logout")
 def logout():
     users.logout()
-    flash('Olet kirjautunut ulos')
+    flash('Olet kirjautunut ulos', 'success')
     return redirect("/")
 
 @auth.route("/register")
@@ -39,10 +45,15 @@ def register():
     form = RegistartionForm(request.form)
     if form.validate():
         if users.register(form.username.data,form.password.data):
-            flash('Rekisteröityminen onnistui!')
+            flash('Rekisteröityminen onnistui!', 'success')
             return redirect("/")
+        else:
+            flash('Käyttäjätunnus on jo käytössä', 'error')
     else:
-        return render_template("error.html", error_message="Rekisteröityminen epäonnistui.")
+        for field in form.errors:
+                for error in form.errors[field]:
+                    flash(error, 'error')
+        return redirect(request.referrer)
 
 @auth.route("/thank", methods=["POST"])
 def thank():
@@ -63,15 +74,19 @@ def delete():
     delete_type = request.form["delete_type"]
     if delete_type == "1":          #1 for messages, 0 for threads, 2 for forums, 3 for subforums
         messages.delete_message(delete_id)
+        flash('Viesti poistettu', 'success')
         return redirect("/")
     if delete_type == "2":
         forums.delete_forum(delete_id)
+        flash('Keskustelualue poistettu', 'success')
         return redirect("/")
     if delete_type == "3":
         forums.delete_subforum(delete_id)
+        flash('Alalauta poistettu', 'success')
         return redirect("/")
     else: 
         threads.delete_thread(delete_id)
+        flash('Lanka poistettu', 'success')
         return redirect("/")
 
 @auth.route("/reply", methods=["POST"])
@@ -82,11 +97,12 @@ def reply():
     if reply_type == "1":
         sent_to = request.form["sent_to"]
         messages.send_dm(message, sent_to, username)
+        flash('Viesti lähetetty', 'success')
         return redirect("/profile/"+str(sent_to)+"/chat")
     else:
         thread_id = request.form["thread_id"]
         messages.send_reply(message, thread_id, username)
-        flash('Viesti lähetetty!')
+        flash('Viesti lähetetty', 'success')
         return redirect(request.referrer)
 
 @auth.route("/create_forum", methods=["POST"])
@@ -97,9 +113,11 @@ def create_forum():
         forum_id = request.form["forum_id"]
         descri = request.form["descri"]
         forums.new_subforum(forumname,descri,forum_id)
+        flash('Alalauta luotu', 'success')
         return redirect("/")
     else:
         forums.new_forum(forumname)
+        flash('Keskustelualue luotu', 'success')
         return redirect("/")
 
 @auth.route("/create_thread", methods=["POST"])
@@ -110,7 +128,7 @@ def create_thread():
     thread_id = threads.new(title, username, subforum_id)
     message = request.form["message"]
     messages.send_reply(message, thread_id, username)
-    flash('Keskustelu luotu!')
+    flash('Keskustelu luotu', 'success')
     return redirect("/subforum/"+str(subforum_id))
 
 @auth.route("/lock", methods=["POST"])
@@ -140,4 +158,5 @@ def signature():
     user_id = request.form["user_id"]
     signature = request.form["signature"]
     users.add_signature(user_id,signature)
+    flash('Allekirjoitus päivitetty', 'success')
     return redirect(request.referrer)

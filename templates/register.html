@@ -4,7 +4,7 @@
 
 {% from "_formhelpers.html" import render_field %}
 
-<form action="/register" method="POST">
+<form action="/register" method="POST" novalidate>
   <dl>
     {{ render_field(form.username) }}
     {{ render_field(form.password) }}

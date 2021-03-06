@@ -7,19 +7,6 @@ body {
    margin: auto;
 }
 
-.header {
-  background: #0C9BE3;
-}
-
-form.example input[type=text] {
-  padding: 10px;
-  font-size: 17px;
-  border: 1px solid grey;
-  float: left;
-  width: 80%;
-  background: #f1f1f1;
-}
-
 table {
   border: 5px solid #0C9BE3;
   border-radius: 25px;
@@ -27,11 +14,6 @@ table {
   width: 200px;
   height: 75px;
 }
-
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
 
 td {
   font-size: 17px;
@@ -66,28 +48,6 @@ nav.navbar-lightjustify-content-between {
   padding: 0 10px;
 }
 
-form.example button {
-  float: left;
-  width: 20%;
-  padding: 10px;
-  background: #fafafa;
-  color: #3b3b3b;
-  font-size: 17px;
-  border: 1px solid blue;
-  border-left: none;
-  cursor: pointer;
-}
-
-form.example button:hover {
-  background: #0b7dda;
-}
-
-form.example::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
 .gg-lock {
   box-sizing: border-box;
   position: relative;
@@ -113,4 +73,9 @@ form.example::after {
   box-shadow: 0 0 0 2px;
   left: -4px;
   top: 9px
+}
+
+flashes.error {
+  background-color: red;
+  color: red;
 }
