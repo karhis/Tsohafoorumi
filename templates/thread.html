@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}{{ title }}{% endblock %}
+{% block title %}{{ title[0] }}{% endblock %}
 {% block content %}
 
 {% from "_formhelpers.html" import render_field %}
@@ -59,7 +59,7 @@
 <div class="jumbotron">
   <div class="row">
     <div class="col-md-1 offset-md-1 mx-1 my-1">
-      <p>{{ reply[4] }}</p>
+      <p><a href="/profile/{{ reply[7] }}">{{ reply[4] }}</a></p>
       <br>
       <small>{{ reply[3].strftime("%Y-%m-%d %H:%M:%S") }}</small>
       <br>
