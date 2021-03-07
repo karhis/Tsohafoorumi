@@ -10,5 +10,5 @@ def resultpage():
     query = request.args["query"]
     replys = messages.get_message_query(query)
     usernames = users.get_user_query(query)
-    thread = threads.get_thread_query(query)
-    return render_template("result.html", messages=replys, users=usernames, threads=thread)
+    threadlist = threads.get_thread_query(query)
+    return render_template("result.html", messages=replys, users=usernames, threadlist=threadlist)
