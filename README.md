@@ -10,7 +10,7 @@ Sovelluksessa on seuraavat toiminnallisuudet:
 * Lankojen teko
 * Viestien lähettäminen lankoihin tai toiselle käyttäjälle
 * Tykkääminen, langat ja julkiset viestit
-* Viestin, langan tai käyttäjän hakeminen
+* Viestin, langan tai käyttäjän hakeminen (case sensitive)
 * Oman allekirjoituksen lisääminen
 * (ADMIN) Keskustelualueiden ja niiden alalautojen lisääminen
 * (ADMIN) Lankojen, viestien, keskustelualuiden ja alalautojen poisto
