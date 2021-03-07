@@ -16,3 +16,4 @@ Sovelluksessa on seuraavat toiminnallisuudet:
 * (ADMIN) Lankojen, viestien, keskustelualuiden ja alalautojen poisto
 * (ADMIN) Lankojen lukitseminen
 * (ADMIN) Käyttäjien bannaaminen
+* (ADMIN) Sticky-langat

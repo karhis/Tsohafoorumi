@@ -12,8 +12,6 @@
   </ol>
 </nav>
 
-
-
 {% if session["mod"] %}
 <form action="/delete" method="POST">
   <fieldset class="form-group">
@@ -96,13 +94,11 @@
         <input type="hidden" name="thank_type" value="1">
         <button type="submit" class="btn btn-primary"><i class="bi bi-hand-thumbs-up"></i> Tykkää viestistä</button>
       </form>
-      {% if session["mod"] %}
+      {% if session["mod"] and loop.index > 1 %}
       <form action="/delete" method="POST">
-        <fieldset class="form-group">
           <input type="hidden" name="delete_id" value="{{ reply[0] }}">
           <input type="hidden" name="delete_type" value="1">
           <button type="submit" class="btn btn-danger">Poista viesti</button>
-        </fieldset>
       </form>
       {% endif %}
       {% endif %}

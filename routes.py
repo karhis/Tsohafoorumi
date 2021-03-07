@@ -81,7 +81,7 @@ def delete():
     if delete_type == "3":
         forums.delete_subforum(delete_id)
         flash('Alalauta poistettu', 'success')
-    else: 
+    if delete_type == "0":
         threads.delete_thread(delete_id)
         flash('Lanka poistettu', 'success')
     return redirect("/")
