@@ -40,11 +40,16 @@
   <tbody>
     {% for title in titles %}
     <tr class="table-primary">
-      <th scope="row">
-        {% if title[4] %}
-        <i class="gg-lock"></i>
+      <th>
+        <h4><a href="/thread/{{ title[0] }}"> 
+        {% if title[9] %}
+          <i class="bi bi-pin-fill"></i>
         {% endif %}
-        <h5><a href="/thread/{{ title[0] }}"> {{ title[1] }}</a></h5>
+        {% if title[4] %}
+          <i class="bi bi-file-lock-fill"></i>
+        {% endif %}
+          {{ title[1] }}
+        </a></h4>
         <a href="/profile/{{ title[2] }}"> {{ title[5] }}</a> > {{ title[3].strftime("%Y-%m-%d %H:%M:%S") }}
       </th>
       <td>{{ title[7] }}</td>

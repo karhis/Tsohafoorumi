@@ -12,9 +12,7 @@
   </ol>
 </nav>
 
-{% if locked %}
-<i class="gg-lock"></i>
-{% endif %}
+
 
 {% if session["mod"] %}
 <form action="/delete" method="POST">
@@ -24,34 +22,53 @@
     <button type="submit" class="btn btn-danger">Poista lanka</button>
   </fieldset>
 </form>
-{% if locked %}
-<form action="/lock" method="POST">
-  <fieldset class="form-group">
-    <input type="hidden" name="lock_id" value="{{ thread_id }}">
-    <input type="hidden" name="lock_type" value="0">
-    <button type="submit" class="btn btn-success">Avaa lanka</button>
-  </fieldset>
-</form>
-{% else %}
-<form action="/lock" method="POST">
-  <fieldset class="form-group">
-    <input type="hidden" name="lock_id" value="{{ thread_id }}">
-    <input type="hidden" name="lock_type" value="1">
-    <button type="submit" class="btn btn-warning">Lukitse lanka</button>
-  </fieldset>
-</form>
-{% endif %}
-{% endif %}
 
-<br>
+<form action="/lock" method="POST">
+  <fieldset class="form-group">
+    <input type="hidden" name="lock_id" value="{{ thread_id }}">
+    {% if locked %}
+      <input type="hidden" name="lock_type" value="0">
+      <button type="submit" class="btn btn-success"><i class="bi bi-unlock"></i>Avaa lanka</button>
+    {% else %}
+      <input type="hidden" name="lock_type" value="1">
+      <button type="submit" class="btn btn-warning"><i class="bi bi-lock"></i>Lukitse lanka</button>
+    {% endif %}
+  </fieldset>
+</form>
+
+<form action="/sticky" method="POST">
+  <fieldset class="form-group">
+    <input type="hidden" name="sticky_id" value="{{ thread_id }}">
+    {% if sticky %}
+      <input type="hidden" name="sticky_type" value="0">
+      <button type="submit" class="btn btn-info"><i class="bi bi-pin"></i>Poista Sticky</button>
+    {% else %}
+      <input type="hidden" name="sticky_type" value="1">
+      <button type="submit" class="btn btn-info"><i class="bi bi-pin"></i>Sticky</button>
+    {% endif %}
+  </fieldset>
+</form>
+{% endif %}
 
 {% if session.username and session["banned"]==False %}
 <form action="/thank" method="POST">
   <input type="hidden" name="thread_id" value="{{ thread_id }}">
   <input type="hidden" name="thank_type" value="0">
-  <input type="submit" value="Tykkää langasta">
+  <button type="submit" class="btn btn-primary"><i class="bi bi-hand-thumbs-up"></i> Tykkää langasta</button>
 </form>
 {% endif %}
+
+<br>
+
+{% if sticky %}
+<i class="bi bi-pin"></i>
+{% endif %}
+
+{% if locked %}
+<i class="bi bi-lock"></i>
+{% endif %}
+
+<br>
 
 <h2>{{ title[0] }}</h2>
 
@@ -77,7 +94,7 @@
       <form action="/thank" method="POST">
         <input type="hidden" name="message_id" value="{{ reply[0] }}">
         <input type="hidden" name="thank_type" value="1">
-        <input type="submit" value="Tykkää viestistä">
+        <button type="submit" class="btn btn-primary"><i class="bi bi-hand-thumbs-up"></i> Tykkää viestistä</button>
       </form>
       {% if session["mod"] %}
       <form action="/delete" method="POST">
@@ -97,7 +114,7 @@
 <br>
 
 <p>
-{% if session.username and session["banned"]==False %}
+  {% if session.username and session["banned"]==False %}
   <b>Vastaa lankaan</b>
 </p>
 {% if locked %}

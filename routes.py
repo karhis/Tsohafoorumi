@@ -62,12 +62,11 @@ def thank():
     thank_type = request.form["thank_type"]
     if thank_type == "1":           #1 for messages, 0 for threads
         message_id = request.form["message_id"]
-        thanks.thank_message(message_id,username)
-        return redirect(request.referrer)     
+        thanks.thank_message(message_id,username)   
     else:
         thread_id = request.form["thread_id"]
         thanks.thank_thread(thread_id,username)
-        return redirect(request.referrer)
+    return redirect(request.referrer)
 
 @auth.route("/delete", methods=["POST"])
 def delete():   
@@ -76,19 +75,16 @@ def delete():
     if delete_type == "1":          #1 for messages, 0 for threads, 2 for forums, 3 for subforums
         messages.delete_message(delete_id)
         flash('Viesti poistettu', 'success')
-        return redirect("/")
     if delete_type == "2":
         forums.delete_forum(delete_id)
         flash('Keskustelualue poistettu', 'success')
-        return redirect("/")
     if delete_type == "3":
         forums.delete_subforum(delete_id)
         flash('Alalauta poistettu', 'success')
-        return redirect("/")
     else: 
         threads.delete_thread(delete_id)
         flash('Lanka poistettu', 'success')
-        return redirect("/")
+    return redirect("/")
 
 @auth.route("/reply", methods=["POST"])
 def reply():
@@ -158,17 +154,15 @@ def create_thread():
                     flash(error, 'error')
         return redirect(request.referrer)   
 
-
 @auth.route("/lock", methods=["POST"])
 def lock():   
     lock_id = request.form["lock_id"]
     lock_type = request.form["lock_type"]
     if lock_type == "1":
         threads.lock_thread(lock_id)
-        return redirect("/")
     else:
         threads.unlock_thread(lock_id)
-        return redirect("/")
+    return redirect(request.referrer)  
 
 @auth.route("/ban", methods=["POST"])
 def ban():
@@ -176,10 +170,9 @@ def ban():
     ban_type = request.form["ban_type"]
     if ban_type == "1":
         users.ban_user(ban_id)
-        return redirect("/")
     else:
         users.unban_user(ban_id)
-        return redirect("/")
+    return redirect(request.referrer)  
     
 @auth.route("/signature", methods=["POST"])
 def signature():
@@ -188,9 +181,18 @@ def signature():
     if form.validate():
         users.add_signature(user_id,form.signature.data)
         flash('Allekirjoitus päivitetty', 'success')
-        return redirect(request.referrer)
     else:
         for field in form.errors:
                 for error in form.errors[field]:
                     flash(error, 'error')
-        return redirect(request.referrer)        
+    return redirect(request.referrer)        
+
+@auth.route("/sticky", methods=["POST"])
+def sticky():
+    sticky_id = request.form["sticky_id"]
+    sticky_type = request.form["sticky_type"]
+    if sticky_type == "1":
+        threads.sticky_thread(sticky_id)
+    else:
+        threads.unsticky_thread(sticky_id)
+    return redirect(request.referrer)

@@ -32,6 +32,7 @@ CREATE TABLE threads (
     created_by INTEGER,
     visible BOOLEAN DEFAULT TRUE,
     locked BOOLEAN DEFAULT FALSE,
+    sticky BOOLEAN DEFAULT FALSE,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (title, subforum_id),
     FOREIGN KEY (subforum_id) REFERENCES subforums (id),

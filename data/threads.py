@@ -2,8 +2,8 @@ from data.db import db
 
 def get_thread_info(subforum_id):
     sql = """SELECT T.id, T.title, T.created_by, T.date, T.locked, U.name,  
-                    COUNT(DISTINCT M.id), COUNT(DISTINCT L.id) AS THANKCOUNT, 
-                    MAX(M.date) 
+                    COUNT(DISTINCT M.id), COUNT(DISTINCT L.id), MAX(M.date), 
+                    T.sticky 
                FROM threads T 
                     LEFT OUTER JOIN messages M 
                     ON T.id = M.thread_id 
@@ -64,7 +64,7 @@ def new(title,username,subforum_id):
         return False
 
 def get_title(thread_id):
-    sql = """SELECT title, locked, subforum_id 
+    sql = """SELECT title, locked, subforum_id, sticky 
                FROM threads 
               WHERE id=:id 
                     AND visible """
@@ -85,3 +85,16 @@ def unlock_thread(thread_id):
     db.session.execute(sql, {"id":thread_id})
     db.session.commit()
 
+def sticky_thread(thread_id):
+    sql = """UPDATE threads 
+            SET sticky=True 
+            WHERE id=:id"""
+    db.session.execute(sql, {"id":thread_id})
+    db.session.commit()
+
+def unsticky_thread(thread_id):
+    sql = """UPDATE threads 
+            SET sticky=False 
+            WHERE id=:id"""
+    db.session.execute(sql, {"id":thread_id})
+    db.session.commit()

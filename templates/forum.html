@@ -11,7 +11,7 @@
 
 {% if session["mod"] %}
 <hr>
-<a href="/create/subforum/{{ forum_id }}">Luo alalauta</a>
+<a class="btn btn-success" href="/create/subforum/{{ forum_id }}" role="button">Luo alalauta</a>
 <form action="/delete" method="POST">
   <fieldset class="form-group">
     <input type="hidden" name="delete_id" value="{{ forum_id }}">
