@@ -15,9 +15,9 @@ def profilepage(id):
 @profile.route("/<id>/chat", methods=["GET"])
 def chat(id):
     session_username = session["username"]
-    sent_dms = messages.get_sent_dms(id,session_username)
-    gotten_dms = messages.get_gotten_dms(id,session_username)
     profile= users.get_profile(id)
+    sent_dms = messages.get_dms(id,session_username)
+    gotten_dms = messages.get_dms(session_username,id)
     dms = sent_dms + gotten_dms
     dms.sort()
     return render_template("chat.html", dms=dms, id=id, profile=profile)

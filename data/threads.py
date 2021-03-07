@@ -29,16 +29,14 @@ def get_thread_count():
     return result.fetchone()[0]
 
 def get_thread_query(query):
-    sql = """SELECT T.id, T.title, T.created_by, T.date, U.name, T.subforum_id, S.forum_id 
+    sql = """SELECT T.id, T.title, T.created_by, T.date, U.name
                FROM threads T
                     LEFT OUTER JOIN users U
                     ON T.created_by=U.id 
 
-                    LEFT OUTER JOIN subforums S
-                    ON T.subforum_id=S.id
               WHERE T.visible 
                     AND T.title LIKE :query
-              GROUP BY T.id, U.name, S.forum_id"""
+              GROUP BY T.id, U.name"""
     result = db.session.execute(sql, {"query":"%"+query+"%"})
     return result.fetchall()
 

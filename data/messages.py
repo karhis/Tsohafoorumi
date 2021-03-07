@@ -25,15 +25,7 @@ def delete_message(message_id):
     db.session.execute(sql, {"id":message_id})
     db.session.commit()
 
-def get_sent_dms(id,username):
-    sql = """SELECT * 
-               FROM messages 
-              WHERE created_by=:created_by 
-                    AND sent_to=:sent_to"""
-    result = db.session.execute(sql, {"created_by":username, "sent_to":id})
-    return result.fetchall()
-
-def get_gotten_dms(id,username):
+def get_dms(id,username):
     sql = """SELECT * 
                FROM messages 
               WHERE created_by=:created_by 
