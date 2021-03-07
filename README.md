@@ -4,7 +4,7 @@ https://tsohafoorumi2020.herokuapp.com/
 
 Harjoitustyön aiheena on keskustelupalstasovellus, mukaillen phpbbn tyyliä.
 
-Sovelluksessa on kaksi valmista käyttäjää admin:admin ja user:user, voit tehdä myös uuden käyttäjän. Yksityisviestit löytää: Lista käyttäjistä -> *käyttäjä* -> Chat.
+Sovelluksessa on kaksi valmista käyttäjää admin:admin123 ja user:user123, voit tehdä myös uuden käyttäjän. Yksityisviestit löytää: Lista käyttäjistä -> *käyttäjä* -> Chat.
 
 Sovelluksessa on seuraavat toiminnallisuudet:
 * Lankojen teko
